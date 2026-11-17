@@ -6,753 +6,867 @@
 <title>Aubin – le jeu qui t'aide à tenir</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#ffe9b8;--cd:#fffaf0;--tx:#1d2340;--mu:#5d6585;--ac:#ff6b6b;--gr:#2ec4a6;--gd:#ffc93c;--sk:#bfe6ff;
-  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)
-}
-@media(prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#1a1f45;--cd:#262d63;--tx:#fff6dd;--mu:#b5bce6;--sk:#33408a}
-}
-*{box-sizing:border-box}
-html,body{margin:0}
-body{background:var(--bg);color:var(--tx);font:500 16px/1.45 Fredoka,system-ui,sans-serif;padding-bottom:88px}
-h1,h2,h3{margin:0 0 .35em;font-weight:700}
+:root{--bg:#ffe9b8;--cd:#fffaf0;--tx:#1d2340;--mu:#5d6585;--ac:#ff6b6b;--gr:#2ec4a6;--gd:#ffc93c;--sk:#bfe6ff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1f45;--cd:#262d63;--tx:#fff6dd;--mu:#b5bce6;--sk:#33408a}}
+:root[data-theme="dark"]{--bg:#1a1f45;--cd:#262d63;--tx:#fff6dd;--mu:#b5bce6;--sk:#33408a}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font:500 16px/1.45 Fredoka,system-ui,sans-serif;padding-bottom:92px}
+h1,h2,h3{margin:0 0 .3em;font-weight:700}
 main{max-width:600px;margin:0 auto;padding:14px}
 .c{background:var(--cd);border:3px solid var(--tx);border-radius:22px;padding:14px;margin-bottom:14px;box-shadow:0 5px 0 var(--tx)}
-.mu{color:var(--mu);font-size:14px}
-.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.mu{color:var(--mu);font-size:14px}.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
 .g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-button,.b{
-  font:inherit;font-weight:700;border:3px solid var(--tx);border-radius:16px;padding:11px 14px;
-  cursor:pointer;background:var(--gr);color:var(--tx);text-decoration:none;display:inline-block;
-  text-align:center;box-shadow:0 4px 0 var(--tx);transition:transform .08s,box-shadow .08s
-}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+button,.b{font:inherit;font-weight:700;border:3px solid var(--tx);border-radius:16px;padding:11px 14px;cursor:pointer;background:var(--gr);color:var(--tx);text-decoration:none;display:inline-block;text-align:center;box-shadow:0 4px 0 var(--tx);transition:transform .08s,box-shadow .08s}
 button:active,.b:active{transform:translateY(4px);box-shadow:0 0 0 var(--tx)}
 button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
-.s{background:var(--cd)}.w{background:var(--gd)}.r{background:var(--ac)}.f{width:100%}
-button:disabled{opacity:.45;cursor:not-allowed}
+.s{background:var(--cd)}.w{background:var(--gd)}.r{background:var(--ac);color:#1d2340}.f{width:100%}button:disabled{opacity:.45;cursor:not-allowed}
 input,textarea{font:inherit;width:100%;padding:10px;border-radius:12px;border:3px solid var(--tx);background:var(--cd);color:var(--tx)}
 label{display:block;font-weight:700;margin:10px 0 4px}
-.chip{padding:6px 12px;border-radius:99px;box-shadow:none;background:var(--cd)}
-.chip.on{background:var(--gd)}
-.bar{height:16px;background:var(--cd);border:3px solid var(--tx);border-radius:9px;overflow:hidden}
-.bar i{display:block;height:100%;background:var(--gd);transition:width .4s}
-.bar.hp i{background:var(--ac)}
-nav{
-  position:fixed;left:0;right:0;bottom:0;background:var(--cd);border-top:3px solid var(--tx);
-  display:flex;justify-content:space-around;padding:6px 2px calc(6px + env(safe-area-inset-bottom,0px));z-index:5
-}
-nav button{background:none;border:0;box-shadow:none;font-size:10px;padding:4px 2px;color:var(--mu)}
-nav button.on{color:var(--tx);background:var(--gd);border-radius:14px}
-nav span{display:block;font-size:19px}
+.chip{padding:6px 12px;border-radius:99px;box-shadow:none;background:var(--cd);font-size:14px}.chip.on{background:var(--gd);color:#1d2340}
+.bar{height:16px;background:var(--cd);border:3px solid var(--tx);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--gd);transition:width .4s}.bar.hp i{background:var(--ac)}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--cd);border-top:3px solid var(--tx);display:flex;justify-content:space-around;padding:6px 2px calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
+nav button{background:none;border:0;box-shadow:none;font-size:10px;padding:4px 2px;color:var(--mu)}nav button.on{color:#1d2340;background:var(--gd);border-radius:14px}nav span{display:block;font-size:20px}
 #m{position:fixed;inset:0;background:rgba(10,12,35,.8);display:none;align-items:center;justify-content:center;padding:16px;z-index:9;overflow:auto}
-#m>div{background:var(--cd);border:3px solid var(--tx);border-radius:24px;padding:18px;max-width:460px;width:100%;max-height:92vh;overflow:auto}
-#t{
-  position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);
-  background:var(--tx);color:var(--bg);padding:9px 16px;border-radius:14px;z-index:11;display:none;
-  font-weight:700;max-width:92vw;text-align:center
-}
+#m>div{background:var(--cd);border:3px solid var(--tx);border-radius:24px;padding:18px;max-width:460px;width:100%;max-height:92vh;overflow:auto;box-shadow:0 6px 0 var(--tx)}
+#t{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:9px 16px;border-radius:14px;z-index:11;display:none;font-weight:700;max-width:92vw;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.25)}
 .hero{background:linear-gradient(var(--sk),var(--cd));text-align:center;position:relative;overflow:hidden}
-.av{font-size:92px;line-height:1.1;display:inline-block;position:relative;cursor:pointer;animation:bn 2s infinite ease-in-out;user-select:none}
-.av .hat{position:absolute;top:-26px;left:50%;transform:translateX(-50%) rotate(-8deg);font-size:48px}
-.av .fc{position:absolute;top:34%;left:50%;transform:translateX(-50%);font-size:50px}
-@keyframes bn{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.av{font-size:96px;line-height:1.1;display:inline-block;position:relative;cursor:pointer;animation:bn 2s infinite ease-in-out;user-select:none}
+.av .hat{position:absolute;top:-26px;left:50%;transform:translateX(-50%) rotate(-8deg);font-size:50px}.av .fc{position:absolute;top:34%;left:50%;transform:translateX(-50%);font-size:52px}
+@keyframes bn{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 .say{background:var(--cd);border:3px solid var(--tx);border-radius:16px;padding:8px 12px;display:inline-block;max-width:92%;margin-top:6px}
 .ritual{display:flex;gap:10px;align-items:center;padding:10px;border:3px solid var(--tx);border-radius:16px;margin-bottom:8px;cursor:pointer;background:var(--cd)}
-.ritual.d{background:var(--gr)}
-.ritual.d span{text-decoration:line-through}
-.warn{background:#ffd6d6;color:#1d2340;border:3px solid var(--tx);border-radius:14px;padding:10px;margin:10px 0}
-.warn a{color:#a10f2e}
+.ritual.d{background:var(--gr);color:#1d2340}.ritual.d span{text-decoration:line-through}
+.warn{background:#ffd6d6;color:#1d2340;border:3px solid var(--tx);border-radius:14px;padding:10px;margin:10px 0}.warn a{color:#a10f2e;font-weight:700}
 .map{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
-.cell{aspect-ratio:1;border:3px solid var(--tx);border-radius:12px;display:grid;place-items:center;font-size:19px;background:var(--cd)}
-.cell.ok{background:var(--gr)}
-.cell.cur{background:var(--gd);animation:bn 1.4s infinite}
-.mon{font-size:84px;text-align:center;animation:sh .6s infinite}
-@keyframes sh{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+.cell{aspect-ratio:1;border:3px solid var(--tx);border-radius:12px;display:grid;place-items:center;font-size:20px;background:var(--cd)}.cell.ok{background:var(--gr);color:#1d2340}.cell.cur{background:var(--gd);color:#1d2340;animation:bn 1.4s infinite}
+.mon{font-size:90px;text-align:center;animation:sh .6s infinite}@keyframes sh{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
 .cf{position:fixed;top:-30px;font-size:26px;z-index:12;pointer-events:none;animation:fl 1.8s forwards ease-in}
 @keyframes fl{to{transform:translateY(110vh) rotate(540deg);opacity:.2}}
+.wgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+@media(min-width:460px){.wgrid{grid-template-columns:repeat(8,1fr)}}
+.wcup{border:3px solid var(--tx);border-radius:14px;padding:8px 4px;text-align:center;cursor:pointer;background:var(--cd);user-select:none;transition:transform .1s}
+.wcup.on{background:var(--sk);color:#1d2340;box-shadow:0 3px 0 var(--tx)}
+.daytabs{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin:10px 0}
+.daytab{padding:6px 2px;border-radius:12px;font-size:12px;box-shadow:0 2px 0 var(--tx);background:var(--cd)}
+.daytab.on{background:var(--gd);color:#1d2340}
+.daytab.done{background:var(--gr);color:#1d2340}
+.gage-box{background:var(--gd);color:#1d2340;border:3px solid var(--tx);border-radius:18px;padding:12px;margin:10px 0;text-align:center;box-shadow:0 4px 0 var(--tx)}
 @media(prefers-reduced-motion:reduce){.av,.cell.cur,.mon,.cf{animation:none}}
 </style>
 </head>
 <body>
-<div id="t" role="status" aria-live="polite"></div>
+<div id="t"></div>
 <main id="app"></main>
 <div id="m"></div>
-<nav id="nav" aria-label="Navigation principale"></nav>
+<nav id="nav"></nav>
 
 <script>
-const K='aubin_v3',$=s=>document.querySelector(s);
-let S=null;
-try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
-const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
-const dk=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-const esc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const rnd=a=>a[Math.floor(Math.random()*a.length)];
-const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+// --- CLÉ DE SAUVEGARDE & OUTILS ---
+const K = 'aubin_v2';
+const $ = s => document.querySelector(s);
+let S = null;
+try { S = JSON.parse(localStorage.getItem(K)); } catch (e) {}
+const save = () => { try { localStorage.setItem(K, JSON.stringify(S)); } catch (e) {} };
+const dk = (d = new Date()) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const esc = t => String(t ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const rnd = a => a[Math.floor(Math.random() * a.length)];
 
-const TR=['Fatigue','Stress','Ennui','Solitude','Dispute','Apéro','Habitude','Fête'];
-const STG=[[0,'🥚','Œuf'],[1,'🐣','Poussin'],[3,'🐥','Petit courageux'],[7,'🦊','Renard malin'],[14,'🦁','Lion'],[30,'🐉','Dragon'],[90,'🦄','Licorne légendaire']];
-const DEFI=[
-  'Envoie un message sympa à un proche',
-  'Prépare une boisson fraîche sans alcool avec du citron',
-  'Écoute ta chanson préférée en entier',
-  'Range un tiroir ou un coin de bureau pendant cinq minutes',
-  'Fais dix squats ou quinze secondes de gainage',
-  'Sors prendre l’air trois minutes',
-  'Note trois petites choses positives de ta semaine',
-  'Fais-toi une tisane ou un thé bien chaud'
+// --- DONNÉES DE BASE D'AUBIN ---
+const TR = ['Fatigue', 'Stress', 'Ennui', 'Solitude', 'Dispute', 'Apéro', 'Habitude', 'Fête'];
+const STG = [
+  [0, '🥚', 'Œuf'],
+  [1, '🐣', 'Poussin'],
+  [3, '🐥', 'Petit courageux'],
+  [7, '🦊', 'Renard malin'],
+  [14, '🦁', 'Lion'],
+  [30, '🐉', 'Dragon'],
+  [90, '🦄', 'Licorne légendaire']
 ];
-const ITEMS=[
-  ['h1','🎩','Chapeau',50,'hat'],
-  ['h2','👑','Couronne',200,'hat'],
-  ['h3','🎀','Ruban',60,'hat'],
-  ['f1','🕶️','Lunettes',80,'fc'],
-  ['f2','🎧','Casque',100,'fc'],
-  ['f3','🥸','Déguisement',120,'fc']
+const DEFI = [
+  'Envoie un selfie-sourire à un ami',
+  'Prépare un mocktail (menthe, citron vert, eau pétillante)',
+  'Écoute ta chanson préférée à fond',
+  'Range un tiroir : 5 minutes chrono',
+  'Dis merci à quelqu’un, en vrai',
+  'Fais 10 pompes ou 15 squats',
+  'Sors regarder le ciel 3 minutes',
+  'Cuisine un truc que tu n’as jamais fait',
+  'Écris 3 choses dont tu es fier',
+  'Fais une danse ridicule de 30 secondes'
 ];
-const MOCK=[
-  'Mojito royal : eau pétillante, citron vert, feuilles de menthe, glaçons.',
-  'Ginger kick : ginger beer sans alcool, rondelle d’orange, brin de romarin.',
-  'Spritz rubis : jus de grenade, eau pétillante, rondelle de pamplemousse.'
+const ITEMS = [
+  ['h1', '🎩', 'Chapeau', 50, 'hat'],
+  ['h2', '👑', 'Couronne', 200, 'hat'],
+  ['h3', '🎀', 'Ruban', 60, 'hat'],
+  ['f1', '🕶️', 'Lunettes', 80, 'fc'],
+  ['f2', '🎧', 'Casque', 100, 'fc'],
+  ['f3', '🥸', 'Déguisement', 120, 'fc']
 ];
-const GAGES=[
-  'Bois deux grands verres d’eau tout de suite pour réhydrater ton corps.',
-  'Fais quinze squats tranquillement à ton rythme pour relancer l’énergie.',
-  'Range un tiroir ou débarrasse la table pendant quatre minutes chrono.',
-  'Envoie un message honnête à une personne de confiance.',
-  'Fais cinq minutes d’étirements du dos, de la nuque et des épaules.'
+const MOCK = [
+  '🍹 Mojito royal : eau pétillante bien fraîche, 1/2 citron vert pressé, feuilles de menthe froissées, 1 c.à.c de miel ou sirop d’agave et glaçons pilés.',
+  '🔥 Ginger kick : ginger beer sans alcool (ou eau gazeuse + gingembre frais râpé), rondelle d’orange et brin de romarin pour le hit en gorge.',
+  '💎 Spritz rubis détox : 1/3 jus de grenade ou cranberry pur, 2/3 eau pétillante et 1 rondelle de pamplemousse dans un grand verre à pied.',
+  '🍏 Pomme-Basilic Zen : jus de pomme trouble, 3 feuilles de basilic frais tapées dans la main, trait de citron et eau gazeuse.'
 ];
-const ACT=[
-  ['🌬️','Trois grandes respirations (inspire quatre secondes, expire six secondes)'],
-  ['💧','Boire un grand verre d’eau'],
-  ['👀','Cinq, quatre, trois, deux, un : nomme cinq choses que tu vois'],
-  ['🚶','Bouger deux minutes'],
-  ['📱','Écrire un mot à quelqu’un'],
-  ['❤️','Relire ta raison']
+const DETOX_MEALS = [
+  ['🌅 Matin Énergie Stable', 'Flocons d’avoine ou pain complet + œufs ou purée d’amande + 1 grand verre d’eau citronnée pour réveiller le foie sans pic de sucre.'],
+  ['🥗 Midi Super-Foie', 'Protéine légère (poulet, poisson, lentilles) + légumes verts (brocoli, roquette, artichaut, radis noir) + huile d’olive et curcuma.'],
+  ['🌙 Soir Anti-Tentation (18h30)', 'Poignée d’amandes + 2 carrés de chocolat noir 70% (magnésium naturel contre l’envie d’apéro) + ton Mocktail frais !']
 ];
-const HEALTH=[
-  [24,'24 h','L’alcool a quitté le sang. En cas de consommation quotidienne importante, un suivi médical reste indispensable.'],
-  [72,'3 jours','Le sevrage physique est souvent marqué entre vingt-quatre et soixante-douze heures. Reste entouré.'],
-  [168,'1 semaine','Le sommeil et le réveil s’améliorent souvent dès la première semaine.'],
-  [336,'2 semaines','La digestion, l’hydratation et le niveau d’énergie progressent généralement.'],
-  [720,'1 mois','La stéatose hépatique diminue souvent nettement en quelques semaines sans alcool.'],
-  [2160,'3 mois','L’humeur, la tension et la clarté mentale gagnent en stabilité chez de nombreuses personnes.']
+const GAGES = [
+  ['💧', 'La Tornade d’Eau Fraîche', 'Bois 2 grands verres d’eau cul sec en faisant une grimace de pirate. Ton cerveau réclame de l’eau, pas de la culpabilité !'],
+  ['🦵', 'Les 15 Squats du Pardon', 'Fais 15 squats (ou 10 pompes contre le mur) en souriant. On transforme l’écart en cuisses d’acier !'],
+  ['🧦', 'Mission Tiroir Éclair (3 min)', 'Range un tiroir, une table ou ton sac pendant 3 minutes chrono. Esprit rangé = zéro honte !'],
+  ['🥣', 'Le Cadeau au Toi de Demain', 'Prépare dès maintenant ta tasse, ton petit-déj ou ta bouteille d’eau pour demain matin.'],
+  ['💌', 'Le Message Complice', 'Envoie un message gentil ou un emoji rigolo à un proche. Le lien humain bat toujours la culpabilité !'],
+  ['🕺', 'Le Shake de Décompression', 'Secoue tes bras et tes épaules pendant 30 secondes comme un chien qui sort de l’eau pour lâcher la pression !']
 ];
-const TROPH=[
-  ['🌅','Jour 1',s=>s.days>=1],
-  ['🛡️','3 jours',s=>s.days>=3],
-  ['🏆','7 jours',s=>s.days>=7],
-  ['🌳','14 jours',s=>s.days>=14],
-  ['🐉','30 jours',s=>s.days>=30],
-  ['⚔️','5 envies surmontées',()=>S.cr.filter(c=>c.ok).length>=5],
-  ['🌙','7 bilans du soir',()=>Object.values(S.logs).filter(l=>l.chk).length>=7],
-  ['💙','Honnête après un écart',()=>S.slips>=1]
+const ACT = [
+  ['🌬️', '3 grandes respirations (inspire 4 s, expire 6 s)'],
+  ['💧', 'Boire un grand verre d’eau'],
+  ['👀', '5-4-3-2-1 : nomme 5 choses que tu vois'],
+  ['🚶', 'Bouger 2 minutes'],
+  ['📱', 'Écrire un mot à quelqu’un'],
+  ['❤️', 'Relire ta raison']
 ];
-const SP={
-  doux:[
-    ['☀️','Repos actif du dimanche','Balade tranquille ou repos complet sans alcool. Les week-ends sobres permettent de vrais matins légers.',10],
-    ['🚶','Marche tranquille (Lundi)','Quinze minutes à un rythme où tu peux parler facilement, suivies de cinq respirations lentes.',15],
-    ['🧘','Étirements & souffle (Mardi)','Dix minutes pour la nuque, les épaules, le dos et les jambes en respirant calmement.',10],
-    ['🪑','Renfort doux (Mercredi)','Deux séries de huit répétitions : lever de chaise, pompes contre un mur, ponts fessiers.',12],
-    ['🌳','Marche dehors (Jeudi)','Vingt minutes à l’extérieur en observant l’environnement, sans téléphone en main.',20],
-    ['💃','Mobilité & rythme (Vendredi)','Douze minutes de mouvement libre ou de marche dynamique pour clôturer la semaine.',12],
-    ['☀️','Repos actif du samedi','Balade légère ou détente : ton corps récupère mieux sans fatigue liée à l’alcool.',10]
-  ],
-  actif:[
-    ['☀️','Repos actif du dimanche','Récupération active : marche douce ou étirements pour garder l’élan sans surcharge.',10],
-    ['🏃','Cardio fractionné (Lundi)','Vingt minutes : alterne deux minutes de marche rapide ou footing léger et une minute de marche lente.',20],
-    ['🏋️','Renforcement musculaire (Mardi)','Trois séries de dix squats, huit pompes (sur les genoux si besoin) et vingt secondes de gainage.',20],
-    ['🚶','Marche soutenue (Mercredi)','Trente minutes à un rythme dynamique qui sollicite le souffle.',30],
-    ['🔁','Circuit complet (Jeudi)','Trois tours : dix squats, huit pompes, trente secondes de gainage, trente secondes de jumping jacks.',20],
-    ['🚴','Cardio au choix (Vendredi)','Vingt-cinq minutes de vélo, natation, corde à sauter ou marche rapide.',25],
-    ['☀️','Repos actif du samedi','Balade tranquille ou étirements : le corps consolide les progrès du lundi au vendredi.',10]
-  ]
-};
-const OCC=[
-  ['🖐️ Mains','Cuisine quelque chose de simple','Range un tiroir ou une étagère','Dessine ou gribouille cinq minutes','Puzzle ou petit jeu de logique'],
-  ['🏃 Corps','Marche dix minutes dehors','Vingt squats ou dix pompes','Prends une douche tiède ou fraîche','Étire ton dos et tes épaules'],
-  ['🧠 Tête','Appelle quelqu’un, même deux minutes','Écris pourquoi tu veux tenir','Mots croisés, sudoku ou lecture','Regarde une vidéo drôle'],
-  ['🥤 Bouche','Prépare une boisson fraîche sans alcool','Fais-toi une tisane ou un thé','Eau pétillante et citron vert','Croque une pomme ou un fruit']
+const HEALTH = [
+  [24, '24 h', 'L’alcool a quitté ton sang. Si tu bois beaucoup chaque jour, un suivi médical compte énormément à ce stade.'],
+  [72, '3 jours', 'Le sevrage physique est en général à son maximum entre 24 et 72 h. Reste entouré.'],
+  [168, '1 semaine', 'Beaucoup de personnes dorment mieux et se réveillent moins vaseuses.'],
+  [336, '2 semaines', 'Digestion, hydratation et énergie s’améliorent souvent.'],
+  [720, '1 mois', 'La graisse du foie diminue souvent nettement en quelques semaines.'],
+  [2160, '3 mois', 'Humeur, tension et mémoire progressent chez beaucoup de personnes.']
+];
+const TROPH = [
+  ['🌅', 'Jour 1', s => s.days >= 1],
+  ['🛡️', '3 jours', s => s.days >= 3],
+  ['🏆', '7 jours', s => s.days >= 7],
+  ['🌳', '14 jours', s => s.days >= 14],
+  ['🐉', '30 jours', s => s.days >= 30],
+  ['⚔️', '5 monstres vaincus', s => S.cr.filter(c => c.ok).length >= 5],
+  ['🌙', '7 bilans du soir', s => Object.values(S.logs).filter(l => l.chk).length >= 7],
+  ['💙', 'Honnête après un écart', s => S.slips >= 1],
+  ['🎲', 'Gage déculpabilisant validé', s => (S.gagesDone || 0) >= 1]
 ];
 
-let tab='home',B=null,bt=null,cur={tr:null,md:3,amt:null,gage:null};
-let occT=null,spT=null,spLeft=null;
-let tk={r:'',c:false,l:false},cs=dk(),dl=false,DI=null,rec=null;
+let tab = 'home', B = null, bt = null, cur = { tr: null, md: 3, gageIdx: 0, gageDone: false };
+let occT = null, spT = null, spLeft = null, selDayIdx = new Date().getDay();
 
-const R=()=>[
-  ['eau','💧','Boire huit verres d’eau',30],
-  ['mov','💪','Mon sport du jour (onglet Sport)',40],
-  ['rep','🍽️','Faire un vrai repas',30],
-  ['soc','📞','Parler à quelqu’un de confiance',40],
-  ['def','🎲','Défi du jour : '+DEFI[new Date().getDate()%DEFI.length],50],
-  ['chk','🌙','Bilan du soir',50]
+const R = () => [
+  ['eau', '💧', 'Boire 8 verres d’eau (' + (T().water || 0) + '/8)', 30],
+  ['mov', '💪', 'Mon sport du jour (onglet Sport)', 40],
+  ['rep', '🍽️', 'Faire un vrai repas détox', 30],
+  ['soc', '📞', 'Parler à quelqu’un de confiance', 40],
+  ['def', '🎲', 'Défi surprise : ' + DEFI[new Date().getDate() % DEFI.length], 50],
+  ['chk', '🌙', 'Bilan du soir & Thérapie Aubin', 50]
 ];
-const T=()=>S.logs[dk()]||(S.logs[dk()]={d:[],water:0});
-const stat=()=>{
-  const raw=Date.now()-S.start,ms=Math.max(0,raw),h=ms/36e5;
-  return{
-    pre:raw<0,left:-raw,ms,h,
-    days:Math.floor(h/24),
-    sober:Object.values(S.logs).filter(l=>l.drank===false).length,
-    saved:ms/864e5*S.cost
+
+const T = () => S.logs[dk()] || (S.logs[dk()] = { d: [], water: 0 });
+const stat = () => {
+  const raw = Date.now() - S.start, ms = Math.max(0, raw), h = ms / 36e5;
+  const soberDays = Object.values(S.logs).filter(l => l.drank === false).length;
+  const totalActiveDays = Math.max(Math.floor(h / 24), soberDays);
+  return {
+    pre: raw < 0,
+    left: -raw,
+    ms,
+    h,
+    days: Math.floor(h / 24),
+    sober: soberDays,
+    saved: (ms / 864e5) * S.cost,
+    kcalSaved: Math.round(totalActiveDays * 300), // ~2 verres évités/j = 300 kcal vides
+    sugarsSaved: Math.round(totalActiveDays * 7), // ~7 morceaux de sucre métaboliques/j
+    croissantsSaved: (totalActiveDays * 300 / 280).toFixed(1)
   };
 };
-const stage=d=>[...STG].reverse().find(s=>d>=s[0]);
+const stage = d => [...STG].reverse().find(s => d >= s[0]);
 
-function toast(m){
-  const t=$('#t');t.textContent=m;t.style.display='block';
-  clearTimeout(toast.i);toast.i=setTimeout(()=>t.style.display='none',3000);
+function toast(m) {
+  const t = $('#t');
+  t.textContent = m;
+  t.style.display = 'block';
+  clearTimeout(toast.i);
+  toast.i = setTimeout(() => t.style.display = 'none', 3200);
 }
-function boom(){
-  for(let i=0;i<24;i++){
-    const e=document.createElement('div');e.className='cf';
-    e.textContent=rnd(['🎉','⭐','🪙','✨','🎊']);
-    e.style.left=Math.random()*95+'vw';e.style.animationDelay=Math.random()*.5+'s';
-    document.body.appendChild(e);setTimeout(()=>e.remove(),2400);
+function boom() {
+  for (let i = 0; i < 26; i++) {
+    const e = document.createElement('div');
+    e.className = 'cf';
+    e.textContent = rnd(['🎉', '⭐', '🪙', '✨', '🎊']);
+    e.style.left = Math.random() * 95 + 'vw';
+    e.style.animationDelay = Math.random() * .5 + 's';
+    document.body.appendChild(e);
+    setTimeout(() => e.remove(), 2500);
   }
 }
-function xp(n,m){
-  const g=Math.round(n/4);
-  S.xp+=n;S.gold+=g;save();
-  toast('+'+n+' XP · +'+g+' pièces · '+m);render();
+function xp(n, m) {
+  S.xp += n;
+  S.gold += Math.round(n / 4);
+  save();
+  toast('+' + n + ' XP · +' + Math.round(n / 4) + ' 🪙 · ' + m);
+  render();
 }
-function modal(h){$('#m').innerHTML='<div role="dialog">'+h+'</div>';$('#m').style.display='flex'}
-function close(){clearInterval(occT);$('#m').style.display='none';render()}
-
-function avatar(){
-  const s=stat(),st=stage(s.days),w=S.worn||{},it=id=>ITEMS.find(i=>i[0]==id)?.[1]||'';
-  return`<div class="av" data-a="talk">${st[1]}${w.hat?`<span class="hat">${it(w.hat)}</span>`:''}${w.fc?`<span class="fc">${it(w.fc)}</span>`:''}</div>`;
+function modal(h) {
+  $('#m').innerHTML = '<div role="dialog">' + h + '</div>';
+  $('#m').style.display = 'flex';
 }
-function say(){
-  const s=stat(),t=T(),n=t.d.length,L=[];
-  if(n===0)L.push('Salut '+(S.name||'toi')+' ! On lance une petite quête pour démarrer ?');
-  if(n>=3)L.push('Beau rythme aujourd’hui, tu avances bien.');
-  if(s.days>=3)L.push(s.days+' jours d’affilée : chaque journée compte.');
+function close() {
+  clearInterval(occT);
+  $('#m').style.display = 'none';
+  render();
+}
+function avatar() {
+  const s = stat(), st = stage(s.days), w = S.worn || {};
+  const it = id => ITEMS.find(i => i[0] == id)?.[1] || '';
+  return `<div class="av" data-a="talk" title="Clique sur Aubin !">${st[1]}${w.hat ? `<span class="hat">${it(w.hat)}</span>` : ''}${w.fc ? `<span class="fc">${it(w.fc)}</span>` : ''}</div>`;
+}
+function say() {
+  const s = stat(), t = T(), n = t.d.length, L = [];
+  if (n == 0) L.push('Salut ' + (S.name || 'toi') + ' ! Un petit rituel ou un verre d’eau pour démarrer ?');
+  if (n >= 3) L.push('Tu es en feu aujourd’hui 🔥');
+  if (s.days >= 3) L.push(s.days + ' jours d’affilée… tu me rends tellement fier !');
+  if ((t.water || 0) >= 8) L.push('8 verres d’eau bus aujourd’hui ! Ton foie danse la samba 💧');
   L.push(
-    'Une envie passe souvent en quelques minutes quand on change d’action.',
-    'Pas de jugement ici : on avance un jour à la fois.',
-    'Clique sur moi si tu veux un petit mot d’encouragement.'
+    'Une envie ? Appelle-moi, on bat le monstre ensemble.',
+    'Je ne te juge jamais. Même si tu trébuches, on tire un petit gage rigolo et on repart !',
+    'Un jour à la fois, c’est tout ce qu’on demande.',
+    'Viens me parler dans l’onglet Parler ce soir pour notre bilan IA 💙',
+    'Tape-moi dessus, ça porte bonheur 😄'
   );
   return rnd(L);
 }
 
-function render(){
-  if(!S){$('#nav').style.display='none';return $('#app').innerHTML=onboard()}
-  $('#nav').style.display='flex';
-  $('#nav').innerHTML=[
-    ['home','🏠','Aubin'],
-    ['map','🗺️','Aventure'],
-    ['sos','⚔️','Envie'],
-    ['shop','🛍️','Boutique'],
-    ['sport','💪','Sport/Détox'],
-    ['talk','💬','Parler'],
-    ['me','🧭','Moi']
-  ].map(n=>`<button class="${tab==n[0]?'on':''}" data-a="tab" data-v="${n[0]}"><span>${n[1]}</span>${n[2]}</button>`).join('');
-  $('#app').innerHTML={home,map,sos,shop,sport,talk,me}[tab]();
+function render() {
+  if (!S) {
+    $('#nav').style.display = 'none';
+    return $('#app').innerHTML = onboard();
+  }
+  $('#nav').style.display = 'flex';
+  $('#nav').innerHTML = [
+    ['home', '🏠', 'Aubin'],
+    ['map', '🗺️', 'Aventure'],
+    ['sos', '⚔️', 'Envie !'],
+    ['shop', '🛍️', 'Boutique'],
+    ['sport', '💪', 'Sport/Détox'],
+    ['talk', '💬', 'Parler IA'],
+    ['me', '🧭', 'Moi']
+  ].map(n => `<button class="${tab == n[0] ? 'on' : ''}" data-a="tab" data-v="${n[0]}"><span>${n[1]}</span>${n[2]}</button>`).join('');
+  $('#app').innerHTML = { home, map, sos, shop, sport, talk, me }[tab]();
 }
 
-function onboard(){
-  return`<div class="c hero">
-    <div class="av" style="animation-duration:1.4s">🥚</div>
-    <h1>Aubin, le jeu qui t’aide à tenir</h1>
-    <p>Fais grandir ton compagnon, traverse les envies et cumule tes jours sobres. Un jour à la fois.</p>
-  </div>
-  <div class="c">
-    <label for="nm">Ton prénom</label><input id="nm" placeholder="Ex : Julien">
-    <p class="mu">Inutile de tout compter au verre près : les habitudes varient selon les moments.</p>
-    <label for="co">Dépense moyenne par semaine (€, facultatif)</label><input id="co" type="number" min="0" placeholder="Laisse vide si tu préfères">
-    <label for="rs">Ta raison principale</label><textarea id="rs" rows="2" placeholder="Ex : mieux dormir, garder mon énergie"></textarea>
-    <label for="ms">Message d’un proche (facultatif)</label><textarea id="ms" rows="2" placeholder="Ex : Je suis là avec toi."></textarea>
-    <label for="qd">Date de départ ou d’arrêt</label><input id="qd" type="date" value="${dk()}">
-    <div class="warn">
-      <b>Sécurité médicale.</b> En cas de consommation quotidienne importante, un arrêt brutal peut être risqué. Coche ce qui s’est déjà produit :
-      <label style="font-weight:400"><input type="checkbox" class="sx" style="width:auto"> Tremblements, sueurs ou nausées sans alcool</label>
-      <label style="font-weight:400"><input type="checkbox" class="sx" style="width:auto"> Consommation dès le matin</label>
-      <label style="font-weight:400"><input type="checkbox" class="sx" style="width:auto"> Convulsions ou confusion lors d’un arrêt passé</label>
-      <div id="wr" style="display:none;margin-top:8px">
-        <b>Demande un avis médical avant d’arrêter seul.</b> Contacte ton médecin ou <a href="tel:0980980930">Alcool Info Service (09 80 98 09 30)</a>. En cas d’urgence : <a href="tel:15">15</a> ou <a href="tel:112">112</a>.
-      </div>
-    </div>
-    <button class="f w" data-a="start">🐣 Faire éclore mon compagnon</button>
-    <p class="mu">Données enregistrées localement sur cet appareil. Ne remplace pas un suivi médical.</p>
-  </div>`;
+function onboard() {
+  return `<div class="c hero"><div class="av" style="animation-duration:1.4s">🥚</div><h1>Aubin, le jeu qui t’aide à tenir</h1><p>Fais éclore ton compagnon, bats les monstres d’envie, fais ton sport sobre et discute avec Aubin chaque soir. Un jour à la fois, sans culpabilité.</p></div>
+<div class="c"><label>Ton prénom</label><input id="nm" placeholder="Ex : Julien">
+<p class="mu">Pas besoin de compter tes verres au centilitre près : ça change selon les jours (stress, réconfort, joie…) et c’est normal.</p><label>Dépense moyenne par semaine, à la louche (€, facultatif)</label><input id="co" type="number" min="0" placeholder="Ex : 35 (Laisse vide si tu ne sais pas)">
+<label>Ta raison d’arrêter</label><textarea id="rs" rows="2" placeholder="Ex : être en pleine forme, être là pour mes proches"></textarea>
+<label>💌 Message d’un proche (facultatif)</label><textarea id="ms" rows="2" placeholder="Ex : Je crois en toi. Je suis là."></textarea>
+<label>📅 Ma date d’arrêt (aujourd’hui, bientôt, ou déjà passée)</label><input id="qd" type="date" value="${dk()}">
+<div class="warn"><b>Sécurité d’abord.</b> Chez une personne dépendante, arrêter brutalement peut être dangereux. Coche ce qui est déjà arrivé :
+<label style="font-weight:400"><input type="checkbox" class="sx" style="width:auto"> Tremblements, sueurs ou nausées quand je n’ai pas bu</label>
+<label style="font-weight:400"><input type="checkbox" class="sx" style="width:auto"> Je bois dès le matin</label>
+<label style="font-weight:400"><input type="checkbox" class="sx" style="width:auto"> Convulsions ou hallucinations lors d’un arrêt passé</label>
+<div id="wr" style="display:none;margin-top:8px"><b>N’arrête pas d’un coup tout seul·e.</b> Parle d’abord à ton médecin ou appelle <a href="tel:0980980930">Alcool Info Service 09 80 98 09 30</a> (7j/7). Malaise : <a href="tel:15">15</a> ou <a href="tel:112">112</a>. Aubin t’accompagne en plus de ce suivi.</div></div>
+<button class="f w" data-a="start">🐣 Faire éclore mon compagnon</button>
+<p class="mu">Données stockées sur cet appareil. Ne remplace pas un suivi médical.</p></div>`;
 }
 
-function home(){
-  const s=stat(),st=stage(s.days),L=Math.floor(S.xp/200)+1,t=T(),rit=R(),dn=rit.filter(r=>t.d.includes(r[0])).length,all=dn===rit.length;
-  return`
-  ${s.pre?`<div class="c" style="background:var(--gd);color:#1d2340">
-    <h3>📅 Jour J dans ${Math.ceil(s.left/864e5)} jour${s.left>864e5*1.01?'s':''}</h3>
-    <p>Prévu le ${new Date(S.start).toLocaleDateString('fr-FR')}. Tu peux déjà préparer tes boissons sans alcool, tes occupations et tes repères.</p>
-  </div>`:''}
-  <div class="row" style="margin-bottom:10px"><b>Niv. ${L}</b><b>🔥 ${s.days} j</b><b>🪙 ${S.gold}</b><b>🛡️ ${S.shield}</b></div>
-  <div class="c hero">
-    <div class="mu">${st[2]}</div>
-    ${avatar()}<br>
-    <div class="say" id="say">${esc(say())}</div>
-    <div class="bar" style="margin:12px 0 4px"><i style="width:${S.xp%200/2}%"></i></div>
-    <div class="mu">${S.xp%200}/200 XP vers le niveau ${L+1}</div>
-  </div>
-  ${S.msg?`<div class="c" style="background:var(--gd);color:#1d2340">💌 <b>Mot d’un proche</b><br>${esc(S.msg)}</div>`:''}
-  <div class="g">
-    ${S.cost>0
-      ?`<div class="c"><b style="font-size:22px">${s.saved.toFixed(0)} €</b><div class="mu">économisés (estimation)</div></div>`
-      :`<div class="c"><b style="font-size:22px">${Math.floor(s.h)} h</b><div class="mu">sans alcool</div></div>`}
-    <div class="c"><b style="font-size:22px">${s.sober}</b><div class="mu">jours sobres cumulés</div></div>
-  </div>
-  <div class="c">
-    <div class="row"><h3>Quêtes du jour</h3><span class="mu">${dn}/${rit.length}</span></div>
-    ${rit.map(r=>`<div class="ritual ${t.d.includes(r[0])?'d':''}" data-a="rit" data-v="${r[0]}"><span>${r[1]} ${esc(r[2])}</span><b style="margin-left:auto">+${r[3]}</b></div>`).join('')}
-    ${all&&!t.chest
-      ?'<button class="f w" data-a="chest">🎁 Ouvrir mon coffre du jour</button>'
-      :all?'<p class="mu">Coffre ouvert aujourd’hui. À demain pour la suite.</p>'
-      :'<p class="mu">Valide toutes les quêtes pour ouvrir un coffre.</p>'}
-  </div>
-  ${S.habits.length?`<div class="c"><h3>🔁 Mes alternatives prévues</h3>${S.habits.map((h,i)=>`<div class="ritual ${t.h&&t.h.includes(i)?'d':''}" data-a="hab" data-v="${i}"><span>Quand ${esc(h.w)} → <b>${esc(h.t)}</b></span><b style="margin-left:auto">+30</b></div>`).join('')}</div>`:''}
-  <div class="g">
-    <button class="r" data-a="tab" data-v="sos">⚔️ J’ai une envie</button>
-    <button class="s" data-a="slip">😅 J’ai déconné / écart</button>
-  </div>`;
+function home() {
+  const s = stat(), st = stage(s.days), L = Math.floor(S.xp / 200) + 1, t = T(), rit = R(), dn = rit.filter(r => t.d.includes(r[0])).length, all = dn == rit.length;
+  return `${s.pre ? `<div class="c" style="background:var(--gd);color:#1d2340"><h3>📅 Jour J dans ${Math.ceil(s.left / 864e5)} jour${s.left > 864e5 * 1.01 ? 's' : ''}</h3><p>Tu arrêtes le ${new Date(S.start).toLocaleDateString('fr-FR')}. D’ici là : parle à ton médecin (surtout si tu bois beaucoup), préviens un proche, prépare tes occupations et tes mocktails. Tu peux déjà jouer et écrire ici.</p></div>` : ''}
+<div class="row" style="margin-bottom:10px"><b>Niv. ${L}</b><b>🔥 ${s.days} j</b><b>🪙 ${S.gold}</b><b>🛡️ ${S.shield}</b></div>
+<div class="c hero"><div class="mu">${st[2]}</div>${avatar()}<br><div class="say" id="say">${esc(say())}</div><div class="bar" style="margin:12px 0 4px"><i style="width:${(S.xp % 200) / 2}%"></i></div><div class="mu">${S.xp % 200}/200 XP vers le niveau ${L + 1}</div></div>
+${S.msg ? `<div class="c" style="background:var(--gd);color:#1d2340">💌 <b>Message de ton proche</b><br>${esc(S.msg)}</div>` : ''}
+<div class="g">${S.cost > 0 ? `<div class="c"><b style="font-size:22px">${s.saved.toFixed(0)} €</b><div class="mu">économisés (estimation)</div></div>` : `<div class="c"><b style="font-size:22px">${Math.floor(s.h)} h</b><div class="mu">sans alcool</div></div>`}<div class="c"><b style="font-size:22px">${s.sober}</b><div class="mu">jours sobres au total (jamais effacés)</div></div></div>
+<div class="c"><div class="row"><h3>Mes quêtes du jour</h3><span class="mu">${dn}/${rit.length}</span></div>
+${rit.map(r => `<div class="ritual ${t.d.includes(r[0]) ? 'd' : ''}" data-a="rit" data-v="${r[0]}"><span>${r[1]} ${esc(r[2])}</span><b style="margin-left:auto">+${r[3]}</b></div>`).join('')}
+${all && !t.chest ? '<button class="f w" data-a="chest">🎁 Ouvrir mon coffre du jour !</button>' : all ? '<p class="mu">Coffre ouvert. À demain pour le suivant !</p>' : '<p class="mu">Termine toutes les quêtes pour gagner un coffre surprise.</p>'}</div>
+${S.habits.length ? `<div class="c"><h3>🔁 Mes habitudes à remplacer</h3>${S.habits.map((h, i) => `<div class="ritual ${t.h && t.h.includes(i) ? 'd' : ''}" data-a="hab" data-v="${i}"><span>Quand ${esc(h.w)} → <b>${esc(h.t)}</b></span><b style="margin-left:auto">+30</b></div>`).join('')}</div>` : ''}
+<div class="g"><button class="r" data-a="tab" data-v="sos">⚔️ J’ai envie de boire</button><button class="s" data-a="slip">😅 J’ai bu / J’ai déconné</button></div>`;
 }
 
-function map(){
-  const s=stat(),p=Math.min(30,s.days),M={3:1,7:1,14:1,21:1,30:1};
-  return`
-  <div class="c">
-    <h2>🗺️ Parcours sur trente jours</h2>
-    <p class="mu">Chaque jour sobre fait avancer ton compagnon. Les cases 🎁 marquent des étapes clés.</p>
-    <div class="map">${[...Array(30)].map((_,i)=>{
-      const n=i+1,ok=n<=p,cu=n===p+1;
-      return`<div class="cell ${ok?'ok':''} ${cu?'cur':''}">${cu?stage(s.days)[1]:M[n]?'🎁':ok?'✓':n}</div>`;
-    }).join('')}</div>
-    ${s.days>=30?'<p><b>Trente jours atteints :</b> beau cap franchi, continue à ton rythme.</p>':''}
-  </div>
-  <div class="c">
-    <h3>🛡️ Bouclier seconde chance</h3>
-    <p class="mu">Stock actuel : ${S.shield} (maximum deux). Un bouclier protège ta série en cas d’écart ; tu en gagnes un tous les sept jours.</p>
-  </div>
-  <div class="c">
-    <h3>🏅 Trophées</h3>
-    <div class="g">${TROPH.map(t=>`<div style="opacity:${t[2](s)?1:.35}">${t[0]} ${t[1]}</div>`).join('')}</div>
-  </div>`;
+function map() {
+  const s = stat(), p = Math.min(30, s.days), M = { 3: 1, 7: 1, 14: 1, 21: 1, 30: 1 };
+  return `<div class="c"><h2>🗺️ Ta traversée de 30 jours</h2><p class="mu">Chaque jour sobre avance ton pion. Les 🎁 sont des étapes bonus.</p><div class="map">${[...Array(30)].map((_, i) => { const n = i + 1, ok = n <= p, cu = n == p + 1; return `<div class="cell ${ok ? 'ok' : ''} ${cu ? 'cur' : ''}">${cu ? stage(s.days)[1] : M[n] ? '🎁' : ok ? '✓' : n}</div>`; }).join('')}</div>${s.days >= 30 ? '<p><b>Traversée terminée !</b> Tu es une légende, continue ton aventure 🦄</p>' : ''}</div>
+<div class="c"><h3>🛡️ Bouclier seconde chance</h3><p class="mu">Tu en as ${S.shield}. Il sauve ta série en cas d’écart. Tu en gagnes un tous les 7 jours (2 max).</p></div>
+<div class="c"><h3>🏅 Trophées</h3><div class="g">${TROPH.map(t => `<div style="opacity:${t[2](s) ? 1 : .35}">${t[0]} ${t[1]}</div>`).join('')}</div></div>`;
 }
 
-function sport(){
-  const dayIdx=new Date().getDay();
-  const x=SP[S.lvl][dayIdx];
-  const t=T();
-  const water=t.water||0;
-  const estDrinks=Math.max(1,Math.round((S.cost||25)/8));
-  const avoidedDrinks=stat().days*estDrinks;
-  const kcalSaved=avoidedDrinks*120;
-  const sugarSaved=avoidedDrinks*8;
-  const wk=[...Array(7)].map((_,i)=>{
-    const q=new Date();q.setDate(q.getDate()-6+i);
-    return S.logs[dk(q)]?.sport?'✅':'▫️';
-  }).join(' ');
-  const daysLabels=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+const fmt = s => String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+const DAY_LABELS = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+const DAY_ORDER = [1, 2, 3, 4, 5, 6, 0]; // Affichage Lundi -> Dimanche
 
-  return`
-  <div class="c">
-    <h2>💪 Sport du lundi au vendredi</h2>
-    <p class="mu">Programme structuré du lundi au vendredi, avec récupération active le week-end sans gueule de bois.</p>
-    <div class="g">
-      <button class="${S.lvl=='doux'?'w':'s'}" data-a="lvl" data-v="doux">🌱 Débutant doux</button>
-      <button class="${S.lvl=='actif'?'w':'s'}" data-a="lvl" data-v="actif">🔥 Amateur actif</button>
-    </div>
-  </div>
-  <div class="warn">
-    En début de sevrage, privilégie la marche et les étirements, et demande l’avis d’un médecin avant d’augmenter l’intensité. En cas de vertiges, douleurs thoraciques ou tremblements marqués : <a href="tel:15">15</a>.
-  </div>
-  <div class="c hero">
-    <div class="mon" style="animation:none">${x[0]}</div>
-    <h3>${x[1]}</h3>
-    <p>${x[2]}</p>
-    <div id="spc" style="font-size:38px;font-weight:700">${fmt(spLeft??x[3]*60)}</div>
-    <div class="g" style="margin-top:10px">
-      <button class="s" data-a="spt">${spT?'⏸ Pause':'▶ Lancer le chrono'}</button>
-      <button class="w" data-a="sportok" ${t.sport?'disabled':''}>${t.sport?'Séance validée ✓':'Valider (+60 XP)'}</button>
-    </div>
-  </div>
-  <div class="c">
-    <h3>🗓️ Aperçu de la semaine</h3>
-    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
-      ${[1,2,3,4,5,6,0].map(d=>`<span class="chip ${d===dayIdx?'on':''}">${daysLabels[d]} : ${SP[S.lvl][d][1].split(' (')[0]}</span>`).join('')}
-    </div>
-    <p class="mu">Sept derniers jours : ${wk}</p>
-  </div>
-  <div class="c">
-    <h3>💧 Hydratation & repères détox</h3>
-    <p class="mu">Verres d’eau aujourd’hui : <b>${water}/8</b> (huit verres valident automatiquement la quête eau).</p>
-    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
-      ${[...Array(8)].map((_,i)=>`<button class="chip ${i<water?'on':''}" data-a="water" data-v="${i+1}">💧 ${i+1}</button>`).join('')}
-    </div>
-    <p class="mu">Repères estimés sur ta série : ~${avoidedDrinks} verres évités, ~${kcalSaved.toLocaleString('fr-FR')} kcal économisées et ~${sugarSaved} morceaux de sucre épargnés.</p>
-    <button class="f s" data-a="mock">🍹 Voir une idée de boisson sans alcool</button>
-  </div>`;
-}
-
-function occ(){
-  return`
-  <div class="c">
-    <h3>🎲 Occupation cinq minutes</h3>
-    <p class="mu">L’envie retombe plus facilement quand tu changes d’activité quelques minutes.</p>
-    ${S.habits.length?'<p><b>Tes repères :</b> '+S.habits.map(h=>esc(h.w)+' → '+esc(h.t)).join(' · ')+'</p>':''}
-    <button class="f w" data-a="occ" data-v="r">🎲 Tirer une idée</button>
-    ${OCC.map((c,i)=>`<p style="margin:10px 0 4px"><b>${c[0]}</b></p><div style="display:flex;flex-wrap:wrap;gap:6px">${c.slice(1).map((o,j)=>`<button class="chip" data-a="occ" data-v="${i}-${j}">${o}</button>`).join('')}</div>`).join('')}
-  </div>`;
-}
-
-function sos(){
-  if(!B)return`
-  <div class="c hero">
-    <div class="mon">👹</div>
-    <h2>Une envie se présente ?</h2>
-    <p>Une envie dure souvent dix à vingt minutes. Choisis ce qui déclenche l’envie et lance l’affrontement.</p>
-    <label>Déclencheur principal</label>
-    <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">
-      ${TR.map(t=>`<button class="chip ${cur.tr==t?'on':''}" data-a="tr" data-v="${t}">${t}</button>`).join('')}
-    </div><br>
-    <button class="f r" data-a="fight">⚔️ Commencer</button>
-  </div>
-  ${occ()}
-  <div class="c">
-    <h3>📞 Appeler du soutien</h3>
-    ${S.contacts.map(c=>`<a class="b f s" style="margin-bottom:8px" href="tel:${esc(c.t)}">📞 ${esc(c.n)}</a>`).join('')||'<p class="mu">Ajoute un contact de confiance dans l’onglet Moi.</p>'}
-    <a class="b f w" href="tel:0980980930">Alcool Info Service · 09 80 98 09 30</a>
-  </div>`;
-
-  return`
-  <div class="c hero">
-    <div class="mon">${B.hp>60?'👹':B.hp>25?'😠':'🥺'}</div>
-    <h2>Envie : ${esc(cur.tr||'du moment')}</h2>
-    <div class="bar hp"><i id="hp" style="width:${B.hp}%"></i></div>
-    <p class="mu">La jauge baisse aussi avec le temps. Utilise une action ci-dessous pour la faire tomber plus vite.</p>
-  </div>
-  ${occ()}
-  <div class="c">
-    ${ACT.map((a,i)=>`<button class="f ${B.used.includes(i)?'s':'w'}" style="margin-bottom:8px" data-a="hit" data-v="${i}" ${B.used.includes(i)?'disabled':''}>${a[0]} ${a[1]} · −20 PV</button>`).join('')}
-    ${S.reasons[0]?`<p class="mu">Ta raison : « ${esc(S.reasons[0])} »</p>`:''}
-    <button class="f r" data-a="slip">😅 J’ai déconné / j’ai bu</button>
-  </div>`;
-}
-
-function shop(){
-  const w=S.worn||{};
-  return`
-  <div class="c">
-    <h2>🛍️ Boutique d’Aubin</h2>
-    <p class="mu">Solde : 🪙 ${S.gold} pièces. Équipe ton compagnon.</p>
-    <div class="g">${ITEMS.map(i=>{
-      const own=S.items.includes(i[0]),on=w[i[4]]==i[0];
-      return`<div class="c" style="text-align:center;margin:0"><div style="font-size:40px">${i[1]}</div><b>${i[2]}</b><br><button class="${own?(on?'w':'s'):''}" style="margin-top:6px" data-a="buy" data-v="${i[0]}">${own?(on?'Porté ✓':'Porter'):'🪙 '+i[3]}</button></div>`;
-    }).join('')}</div>
-  </div>`;
-}
-
-const CR=/suicid|me tuer|en finir|mourir|plus envie de vivre/i;
-const FB=[
-  ['envie|craqu|tent|boire','Une envie monte puis redescend. Tu as choisi d’en parler : c’est déjà un appui utile. Bois un grand verre d’eau et lance une occupation de cinq minutes dans l’onglet Envie.'],
-  ['triste|seul|nul|honte|culpab|peur|angoiss','Ce que tu traverses pèse lourd, et tu n’as pas à tout porter seul. Avance un jour à la fois, sans te juger, et contacte un proche si tu en as besoin.'],
-  ['bu |écart|rechute|déconn','Merci d’être honnête. Un écart n’efface pas tes jours sobres passés. Hydrate-toi, mange quelque chose, repose-toi et repars sur le prochain pas.']
-];
-const FB0='Merci d’avoir posé ces mots. Chaque jour tenu et chaque prise de recul comptent. Prends soin de toi ce soir, tranquillement.';
-
-function comfort(t){
-  const m=FB.find(f=>new RegExp(f[0],'i').test(t));
-  return Promise.resolve(m?m[1]:FB0);
-}
-
-function talk(){
-  const q=dk(new Date(S.start)),td=dk(),l=S.logs[cs]||{},ns=S.notes.filter(n=>n.k==cs);
-  const cells=[...Array(35)].map((_,i)=>{
-    const d=new Date();d.setDate(d.getDate()-20+i);
-    const k=dk(d),g=S.logs[k];
-    const bg=g?.drank===true?'var(--ac)':g?.drank===false?'var(--gr)':'var(--cd)';
-    return`<button class="cell" style="background:${bg};padding:0;box-shadow:none;font-size:15px;opacity:${k>td?.55:1};${k==cs?'outline:3px solid var(--tx)':''}" data-a="cday" data-v="${k}">${k==q?'🏁':d.getDate()}</button>`;
-  }).join('');
-
-  return`
-  <div class="c">
-    <h2>💬 Espace d’écoute & journal</h2>
-    <p class="mu">Écris ou dicte ce que tu ressens. Tout reste enregistré sur cet appareil.</p>
-    <textarea id="tx" rows="4" placeholder="Comment s’est passée ta journée ?"></textarea>
-    <div class="g" style="margin-top:8px">
-      <button class="s" id="mic" data-a="mic">🎤 Dicter</button>
-      <button class="s" data-a="note">📓 Noter</button>
-    </div>
-    <button class="f w" style="margin-top:8px" data-a="comf" ${tk.l?'disabled':''}>${tk.l?'Réponse en cours…':'💙 Recevoir un retour'}</button>
-  </div>
-  ${tk.c?'<div class="warn"><b>Si tu traverses une détresse importante :</b> appelle le <a href="tel:3114">3114</a> (24h/24, gratuit). En cas d’urgence vitale : <a href="tel:112">112</a>.</div>':''}
-  ${tk.r?`<div class="c hero"><div style="font-size:52px">${stage(stat().days)[1]}</div><p>${esc(tk.r)}</p><p class="mu">Message automatique d’accompagnement, pas un avis médical.</p></div>`:''}
-  <div class="c">
-    <h3>📅 Calendrier</h3>
-    <p class="mu">🏁 date de départ · vert : jour sans alcool · rouge : écart noté</p>
-    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px">${cells}</div>
-    <p style="margin-top:10px"><b>${cs}</b> ${l.drank===true?'Écart noté.':l.drank===false?'Jour sans alcool.':''} ${l.mood?'Humeur '+l.mood+'/5.':''}</p>
-    ${ns.map(n=>`<p class="mu">« ${esc(n.t)} »</p>`).join('')}
-  </div>`;
-}
-
-function me(){
-  const s=stat();
-  return`
-  <div class="c">
-    <h3>❤️ Mes raisons</h3>
-    ${S.reasons.map((r,i)=>`<div class="row" style="margin-bottom:6px"><span>${esc(r)}</span><button class="s" data-a="delr" data-v="${i}" aria-label="Supprimer">✕</button></div>`).join('')}
-    <div class="row"><input id="nr" placeholder="Ajouter une raison"><button data-a="addr">+</button></div>
-  </div>
-  <div class="c">
-    <h3>📅 Ma date de départ</h3>
-    <input id="nd" type="date" value="${dk(new Date(S.start))}">
-    <button class="f" style="margin-top:8px" data-a="setdate">Enregistrer la date</button>
-  </div>
-  <div class="c">
-    <h3>🔁 Mes habitudes de remplacement</h3>
-    <p class="mu">Associe un moment habituel à une action de remplacement.</p>
-    ${S.habits.map((h,i)=>`<div class="row" style="margin-bottom:6px"><span>${esc(h.w)} → ${esc(h.t)}</span><button class="s" data-a="delh" data-v="${i}" aria-label="Supprimer">✕</button></div>`).join('')}
-    <input id="hw" placeholder="Quand ? (ex : en rentrant le soir)">
-    <input id="ht" style="margin-top:6px" placeholder="Alternative (ex : eau pétillante et marche)">
-    <button class="f" style="margin-top:8px" data-a="addh">Ajouter</button>
-  </div>
-  <div class="c">
-    <h3>📞 Contacts de confiance</h3>
-    ${S.contacts.map((c,i)=>`<div class="row" style="margin-bottom:6px"><span>${esc(c.n)} · ${esc(c.t)}</span><button class="s" data-a="delc" data-v="${i}" aria-label="Supprimer">✕</button></div>`).join('')}
-    <div class="g"><input id="cn" placeholder="Prénom"><input id="ct" type="tel" placeholder="Téléphone"></div>
-    <button class="f" style="margin-top:8px" data-a="addc">Ajouter</button>
-  </div>
-  <div class="c">
-    <h3>💪 Repères d’évolution</h3>
-    ${HEALTH.map(h=>`<p style="opacity:${s.h>=h[0]?1:.5}"><b>${s.h>=h[0]?'✅':'🔒'} ${h[1]}</b><br><span class="mu">${h[2]}</span></p>`).join('')}
-  </div>
-  <div class="c">
-    <h3>🆘 Numéros utiles</h3>
-    <p>Alcool Info Service : <a href="tel:0980980930">09 80 98 09 30</a> (7j/7, anonyme). Urgences : <a href="tel:15">15</a> / <a href="tel:112">112</a>. Prévention suicide : <a href="tel:3114">3114</a> (24h/24).</p>
-  </div>
-  <button class="f w" data-a="sum">📋 Copier un résumé de suivi</button>
-  <button class="f s" style="margin-top:10px" data-a="reset">Tout effacer</button>`;
-}
-
-function slip(){
-  clearInterval(bt);
-  if(!cur.gage)cur.gage=rnd(GAGES);
-  modal(`
-    <h2>Pas de drame, on repart 💙</h2>
-    <p>Un écart ne supprime ni tes jours sobres passés ni ta progression.</p>
-    <div class="warn">En cas de consommation quotidienne importante, n’arrête pas brusquement sans avis médical. Tremblements ou malaise : <a href="tel:15">15</a>.</div>
-    <label>Contexte (facultatif)</label>
-    <div style="display:flex;flex-wrap:wrap;gap:6px">${TR.map(t=>`<button class="chip ${cur.tr==t?'on':''}" data-a="tr" data-v="${t}">${t}</button>`).join('')}</div>
-    <label>Intensité (facultatif)</label>
-    <div style="display:flex;flex-wrap:wrap;gap:6px">${['Léger','Modéré','Important','Je ne sais pas'].map(a=>`<button class="chip ${cur.amt==a?'on':''}" data-a="amt" data-v="${a}">${a}</button>`).join('')}</div>
-    <div class="c" style="margin-top:12px;background:var(--bg)">
-      <b>🎲 Petit gage déculpabilisant</b>
-      <p style="margin:6px 0">${esc(cur.gage)}</p>
-      <button class="s" data-a="newgage">Autre gage</button>
-    </div>
-    ${S.shield>0?'<button class="f w" data-a="slipok" data-v="1">🛡️ Utiliser un bouclier (série conservée)</button>':''}
-    <button class="f s" style="margin-top:8px" data-a="slipok" data-v="0">Repartir à zéro (+30 XP et gage)</button>
-    <button class="f s" style="margin-top:8px" data-a="close">Annuler</button>
-  `);
-}
-
-function chkModal(){
-  modal(`
-    <h2>Bilan du soir 🌙</h2>
-    <label>Humeur du jour</label>
-    <div style="display:flex;gap:8px">${[1,2,3,4,5].map(i=>`<button class="chip ${i==3?'on':''}" data-a="md" data-v="${i}">${['😞','😕','😐','🙂','😄'][i-1]}</button>`).join('')}</div>
-    <label for="nt">Un mot sur la journée</label>
-    <input id="nt" placeholder="Ce qui a aidé ou ce qui a été moins simple">
-    <button class="f w" style="margin-top:14px" data-a="chkok">Valider (+50 XP)</button>
-    <button class="f s" style="margin-top:8px" data-a="close">Plus tard</button>
-  `);
-}
-
-const A={
-  tab(v){tab=v;render()},
-  close,
-  slip,
-  newgage(){cur.gage=rnd(GAGES);slip()},
-  start(){
-    const qd=$('#qd').value;
-    const startMs=(!qd||qd===dk())?Date.now():new Date(qd+'T00:00:00').getTime();
-    S={
-      name:$('#nm').value.trim(),
-      cost:(+$('#co').value||0)/7,
-      habits:[],notes:[],lvl:'doux',start:startMs,
-      best:0,xp:0,gold:20,logs:{},cr:[],slips:0,shield:1,
-      items:[],worn:{},
-      reasons:$('#rs').value.trim()?[$('#rs').value.trim()]:[],
-      contacts:[],msg:$('#ms').value.trim(),lastSh:0
-    };
-    T().drank=false;save();boom();render();toast('Compagnon prêt 🥚');
-  },
-  talk(){const e=$('#say');if(e)e.textContent=say()},
-  rit(v){
-    const t=T();if(t.d.includes(v))return;
-    if(v==='chk')return chkModal();
-    if(v==='mov'&&!t.sport){tab='sport';return render()}
-    t.d.push(v);xp(R().find(r=>r[0]===v)[3],'quête validée');
-  },
-  md(v,el){cur.md=+v;el.parentNode.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c===el))},
-  chkok(){
-    const t=T();t.mood=cur.md;t.note=$('#nt').value.trim();t.chk=true;
-    if(t.drank!==true)t.drank=false;
-    if(!t.d.includes('chk'))t.d.push('chk');
-    close();xp(50,'bilan du soir');
-  },
-  chest(){
-    const t=T();if(t.chest)return;t.chest=1;
-    const r=Math.random();let h;
-    if(r<.4){const g=30+Math.floor(Math.random()*40);S.gold+=g;h=`<div class="mon">🪙</div><h2>+${g} pièces</h2>`}
-    else if(r<.7){S.xp+=90;h='<div class="mon">⚡</div><h2>+90 XP</h2>'}
-    else{S.gold+=20;h=`<div class="mon">🍹</div><h2>Idée sans alcool</h2><p>${esc(rnd(MOCK))}</p><p class="mu">+20 pièces</p>`}
-    save();boom();modal(h+'<button class="f w" data-a="close">Continuer</button>');
-  },
-  mock(){
-    modal(`<h2>Idée sans alcool 🍹</h2><p>${esc(rnd(MOCK))}</p><button class="f w" data-a="close">Fermer</button>`);
-  },
-  water(v){
-    const t=T();const n=+v;
-    t.water=(t.water===n)?n-1:n;
-    if(t.water>=8&&!t.d.includes('eau')){t.d.push('eau');save();return xp(30,'objectif eau atteint');}
-    save();render();
-  },
-  amt(v,el){cur.amt=v;el.parentNode.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c===el))},
-  cday(v){cs=v;render()},
-  setdate(){
-    const v=$('#nd').value;if(!v)return;
-    S.start=(v===dk())?Date.now():new Date(v+'T00:00:00').getTime();
-    save();toast('Date mise à jour');render();
-  },
-  note(){
-    const t=($('#tx').value||'').trim();if(!t)return toast('Écris un petit mot d’abord');
-    S.notes.push({k:dk(),t,r:''});tk={r:'',c:CR.test(t),l:false};xp(20,'note enregistrée');
-  },
-  async comf(){
-    const t=($('#tx').value||'').trim();if(!t)return toast('Écris ou dicte quelques mots d’abord');
-    tk={r:'',c:CR.test(t),l:true};render();
-    const r=await comfort(t);
-    S.notes.push({k:dk(),t,r});tk={r,c:CR.test(t),l:false};xp(30,'retour reçu');
-  },
-  mic(){
-    if(DI){
-      if(dl)DI.stop();
-      else DI.start().catch(()=>toast('Micro indisponible : utilise le micro de ton clavier'));
-      return;
-    }
-    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-    if(!SR)return toast('Dictée vocale non prise en charge ici');
-    if(rec){rec.stop();return}
-    rec=new SR();rec.lang='fr-FR';
-    rec.onresult=e=>{const x=$('#tx');if(x)x.value+=(x.value?' ':'')+e.results[e.results.length-1][0].transcript};
-    rec.onend=()=>{rec=null;const b=$('#mic');if(b)b.textContent='🎤 Dicter'};
-    rec.onerror=()=>toast('Micro refusé ou indisponible');
-    try{rec.start();$('#mic').textContent='⏹ Arrêter'}catch(e){rec=null}
-  },
-  lvl(v){S.lvl=v;spLeft=null;clearInterval(spT);spT=null;save();render()},
-  spt(){
-    if(spT){clearInterval(spT);spT=null;return render()}
-    const x=SP[S.lvl][new Date().getDay()];
-    if(spLeft==null)spLeft=x[3]*60;
-    spT=setInterval(()=>{
-      spLeft=Math.max(0,spLeft-1);
-      const e=$('#spc');if(e)e.textContent=fmt(spLeft);
-      if(!spLeft){clearInterval(spT);spT=null;toast('Temps écoulé')}
-    },1000);
-    render();
-  },
-  sportok(){
-    const t=T();if(t.sport)return;
-    t.sport=1;if(!t.d.includes('mov'))t.d.push('mov');
-    clearInterval(spT);spT=null;spLeft=null;boom();xp(60,'séance validée');
-  },
-  occ(v){
-    const p=v==='r'?[Math.floor(Math.random()*4),Math.floor(Math.random()*4)]:v.split('-').map(Number);
-    const i=p[0],j=p[1];let sec=300;
-    modal(`
-      <h2>${OCC[i][0]}</h2>
-      <h3 style="text-align:center">${OCC[i][j+1]}</h3>
-      <div id="ot" style="text-align:center;font-size:40px;font-weight:700">05:00</div>
-      <p class="mu" style="text-align:center">Cinq minutes sur cette action, sans te mettre la pression.</p>
-      <button class="f w" data-a="occok">J’ai fait ça (+25 XP)</button>
-      <button class="f s" style="margin-top:8px" data-a="occ" data-v="r">Autre idée</button>
-      <button class="f s" style="margin-top:8px" data-a="close">Fermer</button>
-    `);
-    clearInterval(occT);
-    occT=setInterval(()=>{sec=Math.max(0,sec-1);const e=$('#ot');if(e)e.textContent=fmt(sec)},1000);
-  },
-  occok(){
-    clearInterval(occT);
-    if(B){B.hp=Math.max(0,B.hp-20);if(B.hp<=0){S.xp+=25;save();return A.win()}}
-    close();xp(25,'occupation validée');
-  },
-  addh(){const w=$('#hw').value.trim(),t=$('#ht').value.trim();if(w&&t){S.habits.push({w,t});save();render()}},
-  delh(v){S.habits.splice(+v,1);save();render()},
-  hab(v){const t=T();t.h=t.h||[];if(t.h.includes(+v))return;t.h.push(+v);xp(30,'alternative appliquée')},
-  tr(v,el){cur.tr=v;el.parentNode.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c===el))},
-  fight(){
-    B={hp:100,used:[]};
-    bt=setInterval(()=>{
-      if(!B)return;
-      B.hp=Math.max(0,B.hp-1);
-      const e=$('#hp');if(e)e.style.width=B.hp+'%';
-      if(B.hp<=0)A.win();
-    },6000);
-    render();
-  },
-  hit(v){
-    if(!B||B.used.includes(+v))return;
-    B.used.push(+v);B.hp=Math.max(0,B.hp-20);
-    if(B.hp<=0)A.win();else render();
-  },
-  win(){
-    clearInterval(bt);B=null;S.cr.push({tr:cur.tr,ok:true});cur.tr=null;cur.gage=null;boom();
-    xp(60,'envie traversée');
-    modal('<div class="mon">🏆</div><h2>Cap passé</h2><p>L’envie a baissé et tu as tenu. +60 XP.</p><button class="f w" data-a="close">Continuer</button>');
-  },
-  slipok(v){
-    const s=stat(),t=T();
-    t.drank=true;t.amt=cur.amt||null;cur.amt=null;
-    S.cr.push({tr:cur.tr,ok:false});cur.tr=null;cur.gage=null;S.slips++;B=null;
-    if(v==='1'){S.shield=Math.max(0,S.shield-1);S.xp+=40;toast('Bouclier utilisé et gage noté (+40 XP) 🛡️')}
-    else{S.best=Math.max(S.best,s.days);S.start=Date.now();S.xp+=40;toast('Nouveau départ noté (+40 XP)')}
-    save();close();
-  },
-  buy(v){
-    const i=ITEMS.find(x=>x[0]===v);
-    if(!S.items.includes(v)){
-      if(S.gold<i[3])return toast('Il manque des pièces pour cet article.');
-      S.gold-=i[3];S.items.push(v);boom();
-    }
-    S.worn[i[4]]=(S.worn[i[4]]===v)?null:v;
-    save();render();
-  },
-  addr(){const v=$('#nr').value.trim();if(v){S.reasons.push(v);save();render()}},
-  delr(v){S.reasons.splice(+v,1);save();render()},
-  addc(){const n=$('#cn').value.trim(),t=$('#ct').value.trim();if(n&&t){S.contacts.push({n,t});save();render()}},
-  delc(v){S.contacts.splice(+v,1);save();render()},
-  sum(){
-    const s=stat();
-    const x=`Suivi Aubin : ${s.sober} jours sobres cumulés, série actuelle ${s.days} j, ${S.slips} écart(s) noté(s), ${S.cr.filter(c=>c.ok).length} envie(s) traversée(s).`;
-    try{navigator.clipboard.writeText(x).then(()=>toast('Résumé copié'),()=>toast(x))}catch(e){toast(x)}
-  },
-  reset(){
-    modal('<h2>Tout effacer ?</h2><p>Les données enregistrées sur cet appareil seront supprimées.</p><button class="r f" data-a="reset2">Confirmer l’effacement</button><button class="s f" style="margin-top:8px" data-a="close">Annuler</button>');
-  },
-  reset2(){try{localStorage.removeItem(K)}catch(e){}S=null;close()}
+// Programme Sport structuré Lundi-Vendredi + Samedi/Dimanche Repos sans gueule de bois
+const SP = {
+  doux: [
+    ['☀️', 'Dimanche Zen & Zéro Gueule de Bois', 'Repos complet ! Profite d’un dimanche matin lucide. Optionnel : 10 min d’étirements doux le soir.', 10],
+    ['🚶', 'Lundi : Réveil Cardio & Souffle', '15 min de marche dynamique à un rythme où tu peux parler + 5 grandes respirations ventrales.', 15],
+    ['🧘', 'Mardi : Sangle Abdominale & Posture', '10 min : étirements nuque/dos, 2x20s de gainage doux et 10 ponts fessiers au sol.', 10],
+    ['🪑', 'Mercredi : Renfort Doux Sans Matériel', '2 séries de 8 : se lever d’une chaise (squats doux), pompes contre un mur, marche sur place.', 12],
+    ['🌳', 'Jeudi : Marche Détox & Regard Loin', '20 min dehors sans regarder son téléphone. Fait baisser le cortisol (hormone du stress).', 20],
+    ['💃', 'Vendredi : Bouclier Anti-Apéro (Danse/Mouvement)', '3 chansons que tu adores ou marche tonique de 12 min pour créer ta dopamine naturelle avant le week-end !', 12],
+    ['🧘', 'Samedi : Repos & Récupération Active', 'Pas de séance imposée ! Balade détente ou repos : ton corps se reconstruit.', 10]
+  ],
+  actif: [
+    ['☀️', 'Dimanche : Régénération & Mobilité', 'Repos musculaire complet + 10 min d’étirements profonds pour attaquer lundi à 100%.', 10],
+    ['🏃', 'Lundi : Cardio HIIT & Décrassage', '20 min : alterne 2 min de jogging/marche très rapide et 1 min de récupération.', 20],
+    ['🏋️', 'Mardi : Force Haut du Corps & Core', '3 séries de 12 squats, 10 pompes (genoux ou pieds), 30 s de gainage planche.', 20],
+    ['🚶', 'Mercredi : Endurance & Souffle Pur', '30 min de marche très rapide, vélo ou footing régulier qui fait transpirer.', 30],
+    ['🔁', 'Jeudi : Circuit Métabolique', '3 tours : 12 squats, 10 pompes, 30 s gainage, 30 s jumping jacks (1 min repos entre les tours).', 20],
+    ['🏆', 'Vendredi : Full Body "Friday Victory"', '25 min de cardio plaisir ou circuit intense suivi d’une douche fraîche et d’un Mocktail royal !', 25],
+    ['🚵', 'Samedi : Repos Actif Plein Air', 'Randonnée, balade à vélo tranquille ou repos complet sans alcool.', 10]
+  ]
 };
 
-document.addEventListener('click',e=>{
-  const a=e.target.closest('[data-a]');
-  if(a&&A[a.dataset.a])A[a.dataset.a](a.dataset.v,a);
+const OCC = [
+  ['🖐️ Mains', 'Cuisine quelque chose de simple', 'Range un tiroir ou une étagère', 'Dessine ou gribouille 5 minutes', 'Puzzle, Lego ou jeu sur téléphone'],
+  ['🏃 Corps', 'Marche 10 minutes dehors', '20 squats ou 10 pompes', 'Prends une douche chaude', 'Étire ton dos et tes épaules'],
+  ['🧠 Tête', 'Appelle quelqu’un, même 2 minutes', 'Écris pourquoi tu veux tenir', 'Sudoku, mots croisés ou jeu de mots', 'Regarde une vidéo qui te fait rire'],
+  ['🥤 Bouche', 'Prépare un mocktail', 'Fais-toi une tisane ou un thé bien chaud', 'Eau pétillante et citron vert', 'Croque une pomme ou mâche un chewing-gum']
+];
+
+function occ() {
+  return `<div class="c"><h3>🎲 Occupe-moi en attendant</h3><p class="mu">L’envie baisse toute seule quand tu fais autre chose. Choisis, ou laisse le hasard décider.</p>${S.habits.length ? '<p><b>Ton plan :</b> ' + S.habits.map(h => esc(h.w) + ' → ' + esc(h.t)).join(' · ') + '</p>' : ''}<button class="f w" data-a="occ" data-v="r">🎲 Surprends-moi</button>${OCC.map((c, i) => `<p style="margin:10px 0 4px"><b>${c[0]}</b></p><div style="display:flex;flex-wrap:wrap;gap:6px">${c.slice(1).map((o, j) => `<button class="chip" data-a="occ" data-v="${i}-${j}">${o}</button>`).join('')}</div>`).join('')}</div>`;
+}
+
+function sport() {
+  const s = stat(), t = T(), wCount = t.water || 0;
+  const x = SP[S.lvl][selDayIdx];
+  const isTodaySelected = selDayIdx === new Date().getDay();
+  const wk = [...Array(7)].map((_, i) => {
+    const q = new Date();
+    q.setDate(q.getDate() - 6 + i);
+    return S.logs[dk(q)]?.sport ? '✅' : '▫️';
+  }).join(' ');
+
+  return `<div class="c"><h2>💪 Sport Sobre & Régime Détox</h2><p class="mu">Programme du <b>Lundi au Vendredi</b> + <b>Week-end récupération</b>, hydratation et carburant pour ton foie.</p>
+<div class="g"><button class="${S.lvl == 'doux' ? 'w' : 's'}" data-a="lvl" data-v="doux">🌱 Doux (Débutant)</button><button class="${S.lvl == 'actif' ? 'w' : 's'}" data-a="lvl" data-v="actif">🔥 Actif (Amateur)</button></div>
+<div class="daytabs">${DAY_ORDER.map(dIdx => `<button class="daytab ${selDayIdx == dIdx ? 'on' : ''}" data-a="selday" data-v="${dIdx}">${DAY_LABELS[dIdx]}${dIdx == new Date().getDay() ? '•' : ''}</button>`).join('')}</div></div>
+<div class="warn">Les premiers jours de sevrage, reste sur la marche et les étirements, et demande l’avis de ton médecin avant d’intensifier. Tremblements forts, palpitations, vertiges ou malaise : arrête et appelle le <a href="tel:15">15</a>.</div>
+<div class="c hero"><div class="mon" style="animation:none">${x[0]}</div><h3>${x[1]}</h3><p>${x[2]}</p><div id="spc" style="font-size:40px;font-weight:700">${fmt(spLeft ?? x[3] * 60)}</div><div class="g" style="margin-top:10px"><button class="s" data-a="spt">${spT ? '⏸ Pause' : '▶ Lancer le chrono'}</button><button class="w" data-a="sportok" ${t.sport && isTodaySelected ? 'disabled' : ''}>${t.sport && isTodaySelected ? 'Fait aujourd’hui ✓' : 'J’ai terminé (+60 XP)'}</button></div></div>
+<div class="c"><h3>💧 Hydratation Détox du Jour (${wCount}/8 verres)</h3><p class="mu">L’alcool déshydrate le cerveau. Clique sur chaque verre bu (valide automatiquement ta quête Eau à 8 verres) !</p>
+<div class="wgrid">${[...Array(8)].map((_, i) => `<div class="wcup ${i < wCount ? 'on' : ''}" data-a="water" data-v="${i + 1}"><div style="font-size:22px">${i < wCount ? '🥤' : '🫙'}</div><div style="font-size:11px;font-weight:700">${i + 1}</div></div>`).join('')}</div></div>
+<div class="c"><h3>🥐 Bilan Détox & Calories Évitées</h3><p class="mu">Grâce à tes jours sobres, tu as épargné à ton foie et ton tour de taille :</p>
+<div class="g3"><div class="c" style="margin:0;text-align:center"><b style="font-size:18px">${s.kcalSaved}</b><div class="mu" style="font-size:12px">kcal vides</div></div><div class="c" style="margin:0;text-align:center"><b style="font-size:18px">🥐 ${s.croissantsSaved}</b><div class="mu" style="font-size:12px">croissants</div></div><div class="c" style="margin:0;text-align:center"><b style="font-size:18px">🍬 ${s.sugarsSaved}</b><div class="mu" style="font-size:12px">sucres foie</div></div></div></div>
+<div class="c"><h3>🥗 Carburant Sobre & Bar à Mocktails</h3>
+${DETOX_MEALS.map(m => `<p style="margin:8px 0"><b>${m[0]}</b><br><span class="mu">${m[1]}</span></p>`).join('')}
+<button class="f w" style="margin-top:8px" data-a="mockmodal">🍹 Ouvrir le Bar à Mocktails d’Aubin</button></div>
+<div class="c"><h3>Mes 7 derniers jours de sport</h3><p style="font-size:22px;letter-spacing:2px">${wk}</p><p class="mu">Même 10 minutes comptent. Un jour manqué n’efface rien.</p></div>`;
+}
+
+// --- CONNEXION GEMINI API POUR L'ESPACE D'ÉCOUTE & THÉRAPIE DU SOIR ---
+const CR = /suicid|me tuer|en finir|mourir|plus envie de vivre/i;
+let tk = { r: '', c: false, l: false }, cs = dk(), dl = false, rec = null;
+
+function qdate() {
+  const v = $('#qd').value;
+  return !v || v == dk() ? Date.now() : new Date(v + 'T00:00:00').getTime();
+}
+
+const FB = [
+  ['envie|craqu|tent|boire', 'Une envie, ça monte, ça culmine, puis ça redescend en 15 minutes. Tu viens d’en parler au lieu de céder : c’est déjà une vraie victoire ! Bois un grand verre d’eau fraîche, puis ouvre l’onglet Envie pour t’occuper les mains 5 minutes.'],
+  ['triste|seul|nul|honte|culpab|peur|angoiss', 'Ce que tu ressens est lourd, et tu as eu mille fois raison de me le dire. Tu n’as pas à être parfait·e : on avance un jour à la fois, sans se flageller. Si tu peux, envoie un petit message à quelqu’un de confiance ce soir.'],
+  ['bu |écart|rechute|déconné|pêché', 'Merci d’être honnête avec moi 💙 Un écart ne détruit jamais tes jours sobres cumulés. Va tirer ton petit gage rigolo pour libérer ton cerveau de la culpabilité, bois un grand verre d’eau et on repart ensemble !']
+];
+const FB0 = 'Merci de t’être confié·e à moi. Je suis super fier de toi pour chaque jour tenu et chaque fois où tu choisis de me parler plutôt que de boire. Respire un bon coup, bois un verre d’eau, on est une équipe !';
+
+async function callGeminiAubin(userPrompt, mode = 'comfort') {
+  const apiKey = "";
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+  const s = stat();
+  const sysInstruction = mode === 'mocktail'
+    ? `Tu es Aubin, le petit compagnon mascotte joyeux et malin d'une application d'arrêt de l'alcool. Propose en français (3 à 4 phrases max, ton enthousiaste et gourmand) une recette minute de mocktail festif sans alcool OU une astuce anti-fringale de 19h avec ce qu'on a dans son frigo.`
+    : `Tu es Aubin (${stage(s.days)[1]} ${stage(s.days)[2]}), le meilleur ami et compagnon chaleureux, drôle et ultra-bienveillant d'une personne qui arrête ou réduit l'alcool (${s.days} jours de série actuelle, ${s.sober} jours sobres cumulés, prénom: ${S.name || 'mon ami'}). Réponds en français, en tutoyant, en 3 à 5 phrases simples et chaleureuses. Reflète ce que la personne ressent, dédramatise totalement la culpabilité, valorise un petit pas concret (boire de l'eau, faire 5 min d'occupation, tirer un petit gage rigolo si elle a fait un écart). Ne moralise jamais, ne donne pas de conseil médical précis. Si elle évoque des idées suicidaires, des tremblements forts ou un malaise, dis-lui d'appeler tout de suite le 3114 ou le 15/112.`;
+
+  const payload = {
+    contents: [{ parts: [{ text: userPrompt }] }],
+    systemInstruction: { parts: [{ text: sysInstruction }] }
+  };
+
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (txt && txt.trim()) return txt.trim();
+    } catch (e) {
+      if (attempt < 2) await new Promise(r => setTimeout(r, 1000 * Math.pow(2, attempt)));
+    }
+  }
+  return null;
+}
+
+async function comfort(t, mode = 'comfort') {
+  const aiReply = await callGeminiAubin(t, mode);
+  if (aiReply) return aiReply;
+  if (mode === 'mocktail') return rnd(MOCK);
+  return (FB.find(f => new RegExp(f[0], 'i').test(t)) || [0, FB0])[1];
+}
+
+function talk() {
+  const q = dk(new Date(S.start)), td = dk(), l = S.logs[cs] || {}, ns = S.notes.filter(n => n.k == cs);
+  const cells = [...Array(35)].map((_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - 20 + i);
+    const k = dk(d), g = S.logs[k];
+    const bg = g?.drank === true ? 'var(--ac)' : g?.drank === false ? 'var(--gr)' : 'var(--cd)';
+    return `<button class="cell" style="background:${bg};padding:0;box-shadow:none;font-size:15px;opacity:${k > td ? .55 : 1};${k == cs ? 'outline:3px solid var(--tx)' : ''}" data-a="cday" data-v="${k}">${k == q ? '🏁' : d.getDate()}</button>`;
+  }).join('');
+
+  return `<div class="c"><h2>💬 Mon espace d’écoute & Thérapie IA</h2><p class="mu">Écris ou dicte ta journée sans filtre. Aubin te répond comme ton meilleur ami avec l’IA Gemini !</p>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
+  <button class="chip" data-a="qprompt" data-v="Faisons mon bilan du soir : aujourd’hui j’ai tenu bon mais je suis un peu fatigué.">🌙 Bilan du soir</button>
+  <button class="chip" data-a="qprompt" data-v="J’ai une petite envie d’apéro ou de décompresser, aide-moi à penser à autre chose.">⚡ Coup de mou 19h</button>
+  <button class="chip" data-a="qprompt" data-v="J’ai déconné et j’ai peur de culpabiliser, rappelle-moi que tout n’est pas fichu.">💙 Dédramatiser</button>
+</div>
+<textarea id="tx" rows="4" placeholder="Aujourd’hui je me sens… (ou raconte ta journée à Aubin)"></textarea>
+<div class="g" style="margin-top:8px"><button class="s" id="mic" data-a="mic">🎤 Parler</button><button class="s" data-a="note">📓 Juste noter</button></div>
+<button class="f w" style="margin-top:8px" data-a="comf" ${tk.l ? 'disabled' : ''}>${tk.l ? '🐣 Aubin réfléchit avec Gemini…' : '💙 Me réconforter (Réponse IA d’Aubin)'}</button>
+<button class="f s" style="margin-top:8px" data-a="aiidea" ${tk.l ? 'disabled' : ''}>🍹 Idée Mocktail / Astuce du soir par Gemini</button></div>
+${tk.c ? '<div class="warn"><b>Ce que tu écris m’inquiète.</b> Tu n’es pas seul·e : appelle le <a href="tel:3114">3114</a> (24h/24). Danger immédiat : <a href="tel:112">112</a>.</div>' : ''}
+${tk.r ? `<div class="c hero"><div style="font-size:56px">${stage(stat().days)[1]}</div><p><b>Réponse d’Aubin :</b><br>${esc(tk.r)}</p><p class="mu">Compagnon IA bienveillant — ne remplace pas un professionnel de santé.</p></div>` : ''}
+<div class="c"><h3>📅 Mon calendrier (35 jours)</h3><p class="mu">🏁 date d’arrêt · vert : jour sans alcool · rouge : écart (avec gage)</p><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px">${cells}</div><p><b>${cs}</b> · ${l.drank === true ? '😅 Écart dédramatisé.' : l.drank === false ? '🛡️ Jour sans alcool.' : 'Aucun bilan noté.'} ${l.mood ? 'Humeur ' + l.mood + '/5.' : ''} ${l.gage ? 'Gage : ' + esc(l.gage) : ''}</p>${ns.map(n => `<div class="c" style="margin:6px 0;padding:10px"><p style="margin:0">« ${esc(n.t)} »</p>${n.r ? `<p class="mu" style="margin:6px 0 0">🐣 <i>${esc(n.r)}</i></p>` : ''}</div>`).join('')}</div>`;
+}
+
+function sos() {
+  if (!B) return `<div class="c hero"><div class="mon">👹</div><h2>Un monstre d’envie approche ?</h2><p>Une envie dure en général 10 à 20 minutes. Fais-lui perdre des PV en agissant, ou en tenant bon.</p><label>Quel déclencheur ?</label><div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">${TR.map(t => `<button class="chip ${cur.tr == t ? 'on' : ''}" data-a="tr" data-v="${t}">${t}</button>`).join('')}</div><br><button class="f r" data-a="fight">⚔️ Affronter le monstre</button></div>
+${occ()}<div class="c"><h3>📞 Appeler à l’aide</h3>${S.contacts.map(c => `<a class="b f s" style="margin-bottom:8px" href="tel:${esc(c.t)}">📞 ${esc(c.n)}</a>`).join('') || '<p class="mu">Ajoute une personne de confiance dans « Moi ».</p>'}<a class="b f w" href="tel:0980980930">Alcool Info Service · 09 80 98 09 30</a></div>`;
+  return `<div class="c hero"><div class="mon">${B.hp > 60 ? '👹' : B.hp > 25 ? '😠' : '🥺'}</div><h2>Monstre ${esc(cur.tr || 'd’envie')}</h2><div class="bar hp"><i id="hp" style="width:${B.hp}%"></i></div><p class="mu">Il s’affaiblit tout seul avec le temps. Ton rôle : l’aider à tomber plus vite.</p></div>
+${occ()}<div class="c">${ACT.map((a, i) => `<button class="f ${B.used.includes(i) ? 's' : 'w'}" style="margin-bottom:8px" data-a="hit" data-v="${i}" ${B.used.includes(i) ? 'disabled' : ''}>${a[0]} ${a[1]} · −20 PV</button>`).join('')}${S.reasons[0] ? `<p class="mu">Ta raison : « ${esc(S.reasons[0])} »</p>` : ''}<button class="f r" data-a="slip">😅 J’ai craqué / J’ai bu</button></div>`;
+}
+
+function shop() {
+  const w = S.worn || {};
+  return `<div class="c"><h2>🛍️ Boutique d’Aubin</h2><p class="mu">Tu as 🪙 ${S.gold}. Habille ton compagnon avec tes pièces gagnées en restant sobre et en faisant tes défis.</p><div class="g">${ITEMS.map(i => { const own = S.items.includes(i[0]), on = w[i[4]] == i[0]; return `<div class="c" style="text-align:center;margin:0"><div style="font-size:42px">${i[1]}</div><b>${i[2]}</b><br><button class="${own ? (on ? 'w' : 's') : ''}" style="margin-top:6px" data-a="buy" data-v="${i[0]}">${own ? (on ? 'Porté ✓' : 'Porter') : '🪙 ' + i[3]}</button></div>`; }).join('')}</div></div>`;
+}
+
+function me() {
+  const s = stat();
+  return `<div class="c"><h3>❤️ Mes raisons</h3>${S.reasons.map((r, i) => `<div class="row" style="margin-bottom:6px"><span>${esc(r)}</span><button class="s" data-a="delr" data-v="${i}" aria-label="Supprimer">✕</button></div>`).join('')}<div class="row"><input id="nr" placeholder="Ajouter une raison"><button data-a="addr">+</button></div></div>
+<div class="c"><h3>📅 Ma date d’arrêt</h3><input id="nd" type="date" value="${dk(new Date(S.start))}"><button class="f" style="margin-top:8px" data-a="setdate">Enregistrer la date</button><p class="mu">Tu peux la choisir dans le futur (jour J) ou dans le passé si tu as déjà arrêté.</p></div>
+<div class="c"><h3>🔁 Mes habitudes à remplacer</h3><p class="mu">Repère les moments où tu buvais d’habitude et choisis quoi faire à la place. Exemple : « le soir en rentrant » → « marche 15 min puis tisane ».</p>${S.habits.map((h, i) => `<div class="row" style="margin-bottom:6px"><span>${esc(h.w)} → ${esc(h.t)}</span><button class="s" data-a="delh" data-v="${i}" aria-label="Supprimer">✕</button></div>`).join('')}<input id="hw" placeholder="Quand ? (ex : le soir en rentrant)"><input id="ht" style="margin-top:6px" placeholder="Je fais quoi à la place ?"><button class="f" style="margin-top:8px" data-a="addh">Ajouter</button></div>
+<div class="c"><h3>📞 Mes personnes de confiance</h3>${S.contacts.map((c, i) => `<div class="row" style="margin-bottom:6px"><span>${esc(c.n)} · ${esc(c.t)}</span><button class="s" data-a="delc" data-v="${i}" aria-label="Supprimer">✕</button></div>`).join('')}<div class="g"><input id="cn" placeholder="Prénom"><input id="ct" type="tel" placeholder="Téléphone"></div><button class="f" style="margin-top:8px" data-a="addc">Ajouter</button></div>
+<div class="c"><h3>💪 Mon corps étape par étape</h3>${HEALTH.map(h => `<p style="opacity:${s.h >= h[0] ? 1 : .5}"><b>${s.h >= h[0] ? '✅' : '🔒'} ${h[1]}</b><br><span class="mu">${h[2]}</span></p>`).join('')}<p class="mu">Repères généraux : chaque corps a son rythme.</p></div>
+<div class="c"><h3>🆘 Aide humaine</h3><p>Alcool Info Service : <a href="tel:0980980930">09 80 98 09 30</a> (7j/7, anonyme). Urgence : <a href="tel:15">15</a> / <a href="tel:112">112</a>. Idées noires : <a href="tel:3114">3114</a> (24h/24).</p></div>
+<button class="f w" data-a="sum">📋 Copier un résumé pour mon médecin</button><button class="f s" style="margin-top:10px" data-a="reset">Tout effacer</button>`;
+}
+
+// --- MODALE "J'AI BU / J'AI DÉCONNÉ" AVEC ROUE DE GAGE DÉCULPABILISANT ---
+function slip() {
+  clearInterval(bt);
+  cur.gageIdx = Math.floor(Math.random() * GAGES.length);
+  cur.gageDone = false;
+  renderSlipModal();
+}
+
+function renderSlipModal() {
+  const g = GAGES[cur.gageIdx];
+  modal(`<h2>Merci d’être honnête 💙</h2><p>Ici, zéro honte ! Un écart n’efface ni tes jours sobres cumulés, ni ton compagnon. Pour que ton cerveau ne culpabilise pas, tire un <b>petit gage rigolo</b> pour payer ta dette à Aubin !</p>
+<div class="gage-box" id="gagebox">
+  <div style="font-size:38px">${g[0]}</div>
+  <b>Gage complice : ${g[1]}</b>
+  <p style="margin:6px 0;font-size:14px">${g[2]}</p>
+  <div class="g" style="margin-top:8px">
+    <button class="s" data-a="rerollgage">🎲 Autre gage</button>
+    <button class="${cur.gageDone ? 's' : ''}" data-a="donegage" ${cur.gageDone ? 'disabled' : ''}>${cur.gageDone ? '✅ Gage validé (+40 XP)' : '🎯 Je fais ce gage (+40 XP)'}</button>
+  </div>
+</div>
+<div class="warn">Si tu bois beaucoup au quotidien, ne coupe pas d’un coup sans avis médical. Tremblements, malaise ou confusion : <a href="tel:15">15</a>.</div>
+<label>Quel a été le déclencheur ?</label><div style="display:flex;flex-wrap:wrap;gap:6px">${TR.map(t => `<button class="chip ${cur.tr == t ? 'on' : ''}" data-a="tr" data-v="${t}">${t}</button>`).join('')}</div>
+<label>Combien as-tu bu ? <span class="mu">(facultatif, juste pour toi)</span></label><div style="display:flex;flex-wrap:wrap;gap:6px">${['Un peu', 'Pas mal', 'Beaucoup', 'Je ne sais pas'].map(a => `<button class="chip ${cur.amt == a ? 'on' : ''}" data-a="amt" data-v="${a}">${a}</button>`).join('')}</div>
+${S.shield > 0 ? '<button class="f w" style="margin-top:10px" data-a="slipok" data-v="1">🛡️ Utiliser mon bouclier : ma série est sauvée</button>' : ''}
+<button class="f s" style="margin-top:8px" data-a="slipok" data-v="0">Je repars de jour 0, avec mes acquis (+30 XP)</button><button class="f s" style="margin-top:8px" data-a="close">Annuler</button>`);
+}
+
+// --- ACTIONS INTERACTIVES ---
+const A = {
+  tab(v) { tab = v; render(); },
+  close,
+  slip,
+  start() {
+    S = {
+      name: $('#nm').value.trim(),
+      cost: (+$('#co').value || 0) / 7,
+      habits: [],
+      notes: [],
+      lvl: 'doux',
+      start: qdate(),
+      best: 0,
+      xp: 0,
+      gold: 20,
+      logs: {},
+      cr: [],
+      slips: 0,
+      gagesDone: 0,
+      shield: 1,
+      items: [],
+      worn: {},
+      reasons: $('#rs').value.trim() ? [$('#rs').value.trim()] : [],
+      contacts: [],
+      msg: $('#ms').value.trim(),
+      lastSh: 0
+    };
+    T().drank = false;
+    save();
+    boom();
+    render();
+    toast('Ton œuf commence à trembler 🥚');
+  },
+  talk() {
+    const e = $('#say');
+    if (e) e.textContent = say();
+  },
+  rit(v) {
+    const t = T();
+    if (t.d.includes(v)) return;
+    if (v == 'chk') return chkModal();
+    if (v == 'mov' && !t.sport) { tab = 'sport'; return render(); }
+    if (v == 'eau') { t.water = 8; }
+    t.d.push(v);
+    xp(R().find(r => r[0] == v)[3], 'bien joué');
+  },
+  water(v) {
+    const t = T();
+    const num = +v;
+    t.water = t.water === num ? num - 1 : num;
+    if (t.water >= 8 && !t.d.includes('eau')) {
+      t.d.push('eau');
+      boom();
+      xp(30, '8 verres d’eau bus ! Quête validée 💧');
+      return;
+    }
+    save();
+    toast('💧 Hydratation : ' + t.water + '/8 verres d’eau');
+    render();
+  },
+  selday(v) {
+    selDayIdx = +v;
+    spLeft = null;
+    clearInterval(spT);
+    spT = null;
+    render();
+  },
+  mockmodal() {
+    modal(`<h2>🍹 Le Bar à Mocktails d’Aubin</h2><p class="mu">Le plaisir visuel et festif de l’apéro, avec 0% de gueule de bois demain matin :</p>
+    ${MOCK.map(m => `<div class="c" style="margin-bottom:8px">${m}</div>`).join('')}
+    <button class="f w" data-a="close">Miam, je teste ça !</button>`);
+  },
+  rerollgage() {
+    cur.gageIdx = (cur.gageIdx + 1) % GAGES.length;
+    renderSlipModal();
+  },
+  donegage() {
+    if (cur.gageDone) return;
+    cur.gageDone = true;
+    S.gagesDone = (S.gagesDone || 0) + 1;
+    T().gage = GAGES[cur.gageIdx][1];
+    S.xp += 40;
+    S.gold += 10;
+    save();
+    boom();
+    toast('🎯 Gage validé ! +40 XP & culpabilité envolée !');
+    renderSlipModal();
+  },
+  chkModal() { chkModal(); },
+  md(v, el) {
+    cur.md = +v;
+    el.parentNode.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c == el));
+  },
+  async chkok() {
+    const t = T();
+    const noteTxt = $('#nt').value.trim();
+    t.mood = cur.md;
+    t.note = noteTxt;
+    t.chk = true;
+    if (t.drank !== true) t.drank = false;
+    if (!t.d.includes('chk')) t.d.push('chk');
+    close();
+    xp(50, 'bilan du soir validé 🌙');
+    if (noteTxt) {
+      tk = { r: '', c: CR.test(noteTxt), l: true };
+      const r = await comfort(`Bilan du soir (humeur ${cur.md}/5) : ${noteTxt}`);
+      S.notes.push({ k: dk(), t: '🌙 Bilan : ' + noteTxt, r });
+      tk = { r, c: CR.test(noteTxt), l: false };
+      save();
+      render();
+    }
+  },
+  chest() {
+    const t = T();
+    t.chest = 1;
+    const r = Math.random();
+    let h;
+    if (r < .4) {
+      const g = 30 + Math.floor(Math.random() * 40);
+      S.gold += g;
+      h = `<div class="mon">🪙</div><h2>+${g} pièces !</h2>`;
+    } else if (r < .7) {
+      S.xp += 90;
+      h = '<div class="mon">⚡</div><h2>+90 XP !</h2>';
+    } else {
+      S.gold += 20;
+      h = `<div class="mon">🍹</div><h2>Recette secrète</h2><p>${rnd(MOCK)}</p><p class="mu">+20 🪙</p>`;
+    }
+    save();
+    boom();
+    modal(h + '<button class="f w" data-a="close">Trop bien</button>');
+  },
+  amt(v, el) {
+    cur.amt = v;
+    el.parentNode.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c == el));
+  },
+  cday(v) { cs = v; render(); },
+  setdate() {
+    const v = $('#nd').value;
+    if (!v) return;
+    S.start = v == dk() ? Date.now() : new Date(v + 'T00:00:00').getTime();
+    save();
+    toast('Date d’arrêt enregistrée');
+    render();
+  },
+  qprompt(v) {
+    const tx = $('#tx');
+    if (tx) { tx.value = v; tx.focus(); }
+  },
+  note() {
+    const t = ($('#tx').value || '').trim();
+    if (!t) return toast('Écris quelques mots d’abord');
+    S.notes.push({ k: dk(), t, r: '' });
+    tk = { r: '', c: CR.test(t), l: false };
+    xp(20, 'tu t’es exprimé·e');
+  },
+  async comf() {
+    const t = ($('#tx').value || '').trim();
+    if (!t) return toast('Écris ou choisis une bulle d’abord');
+    tk = { r: '', c: CR.test(t), l: true };
+    render();
+    const r = await comfort(t, 'comfort');
+    S.notes.push({ k: dk(), t, r });
+    tk = { r, c: CR.test(t), l: false };
+    xp(30, 'Aubin t’a répondu 💙');
+  },
+  async aiidea() {
+    const userHint = ($('#tx')?.value || '').trim() || 'Donne-moi une super recette de mocktail ou une astuce anti-tentation pour ce soir !';
+    tk = { r: '', c: false, l: true };
+    render();
+    const r = await comfort(userHint, 'mocktail');
+    tk = { r, c: false, l: false };
+    xp(20, 'idée fraîche d’Aubin 🍹');
+  },
+  mic() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) return toast('Dictée indisponible ici : utilise le micro de ton clavier 🎤');
+    if (rec) { rec.stop(); return; }
+    rec = new SR();
+    rec.lang = 'fr-FR';
+    rec.onresult = e => {
+      const x = $('#tx');
+      if (x) x.value += (x.value ? ' ' : '') + e.results[e.results.length - 1][0].transcript;
+    };
+    rec.onend = () => {
+      rec = null;
+      const b = $('#mic');
+      if (b) b.textContent = '🎤 Parler';
+    };
+    rec.onerror = () => toast('Micro refusé ou indisponible');
+    try {
+      rec.start();
+      $('#mic').textContent = '⏹ Stop';
+    } catch (e) { rec = null; }
+  },
+  lvl(v) {
+    S.lvl = v;
+    spLeft = null;
+    clearInterval(spT);
+    spT = null;
+    save();
+    render();
+  },
+  spt() {
+    if (spT) { clearInterval(spT); spT = null; return render(); }
+    const x = SP[S.lvl][selDayIdx];
+    if (spLeft == null) spLeft = x[3] * 60;
+    spT = setInterval(() => {
+      spLeft = Math.max(0, spLeft - 1);
+      const e = $('#spc');
+      if (e) e.textContent = fmt(spLeft);
+      if (!spLeft) {
+        clearInterval(spT);
+        spT = null;
+        toast('Temps écoulé, bravo !');
+      }
+    }, 1000);
+    render();
+  },
+  sportok() {
+    const t = T();
+    t.sport = 1;
+    if (!t.d.includes('mov')) t.d.push('mov');
+    clearInterval(spT);
+    spT = null;
+    spLeft = null;
+    boom();
+    xp(60, 'sport du jour validé !');
+  },
+  occ(v) {
+    const p = v == 'r' ? [Math.floor(Math.random() * 4), Math.floor(Math.random() * 4)] : v.split('-').map(Number);
+    const i = p[0], j = p[1];
+    let sec = 300;
+    modal(`<h2>${OCC[i][0]}</h2><h3 style="text-align:center">${OCC[i][j + 1]}</h3><div id="ot" style="text-align:center;font-size:40px;font-weight:700">05:00</div><p class="mu" style="text-align:center">Concentre-toi juste sur ça pendant 5 minutes. L’envie va baisser.</p><button class="f w" data-a="occok">J’ai fait ça (+25 XP)</button><button class="f s" style="margin-top:8px" data-a="occ" data-v="r">Autre idée</button><button class="f s" style="margin-top:8px" data-a="close">Fermer</button>`);
+    clearInterval(occT);
+    occT = setInterval(() => {
+      sec = Math.max(0, sec - 1);
+      const e = $('#ot');
+      if (e) e.textContent = fmt(sec);
+    }, 1000);
+  },
+  occok() {
+    clearInterval(occT);
+    if (B) {
+      B.hp = Math.max(0, B.hp - 20);
+      if (B.hp <= 0) { S.xp += 25; save(); return A.win(); }
+    }
+    close();
+    xp(25, 'bien occupé !');
+  },
+  addh() {
+    const w = $('#hw').value.trim(), t = $('#ht').value.trim();
+    if (w && t) { S.habits.push({ w, t }); save(); render(); }
+  },
+  delh(v) { S.habits.splice(+v, 1); save(); render(); },
+  hab(v) {
+    const t = T();
+    t.h = t.h || [];
+    if (t.h.includes(+v)) return;
+    t.h.push(+v);
+    xp(30, 'habitude remplacée !');
+  },
+  tr(v, el) {
+    cur.tr = v;
+    el.parentNode.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c == el));
+  },
+  fight() {
+    B = { hp: 100, used: [] };
+    bt = setInterval(() => {
+      if (!B) return;
+      B.hp = Math.max(0, B.hp - 1);
+      const e = $('#hp');
+      if (e) e.style.width = B.hp + '%';
+      if (B.hp <= 0) A.win();
+    }, 6000);
+    render();
+  },
+  hit(v) {
+    if (!B || B.used.includes(+v)) return;
+    B.used.push(+v);
+    B.hp = Math.max(0, B.hp - 20);
+    if (B.hp <= 0) A.win();
+    else render();
+  },
+  win() {
+    clearInterval(bt);
+    B = null;
+    S.cr.push({ tr: cur.tr, ok: true });
+    cur.tr = null;
+    boom();
+    xp(60, 'monstre vaincu !');
+    modal('<div class="mon">🏆</div><h2>Monstre vaincu !</h2><p>L’envie est retombée, et c’est toi qui l’as fait. +60 XP.</p><button class="f w" data-a="close">Je suis un boss</button>');
+  },
+  slipok(v) {
+    const s = stat(), t = T();
+    t.drank = true;
+    t.amt = cur.amt || null;
+    cur.amt = null;
+    S.cr.push({ tr: cur.tr, ok: false });
+    cur.tr = null;
+    S.slips++;
+    B = null;
+    if (v == '1') {
+      S.shield--;
+      toast('Bouclier utilisé : série sauvée 🛡️');
+    } else {
+      S.best = Math.max(S.best, s.days);
+      S.start = Date.now();
+      S.xp += 30;
+    }
+    save();
+    close();
+  },
+  buy(v) {
+    const i = ITEMS.find(x => x[0] == v);
+    if (!S.items.includes(v)) {
+      if (S.gold < i[3]) return toast('Pas assez de pièces… continue tes quêtes !');
+      S.gold -= i[3];
+      S.items.push(v);
+      boom();
+    }
+    S.worn[i[4]] = S.worn[i[4]] == v ? null : v;
+    save();
+    render();
+  },
+  addr() {
+    const v = $('#nr').value.trim();
+    if (v) { S.reasons.push(v); save(); render(); }
+  },
+  delr(v) { S.reasons.splice(+v, 1); save(); render(); },
+  addc() {
+    const n = $('#cn').value.trim(), t = $('#ct').value.trim();
+    if (n && t) { S.contacts.push({ n, t }); save(); render(); }
+  },
+  delc(v) { S.contacts.splice(+v, 1); save(); render(); },
+  sum() {
+    const s = stat();
+    const x = `Suivi Aubin : ${s.sober} jours sobres au total, série en cours ${s.days} j, ${S.slips} écart(s), ${S.cr.filter(c => c.ok).length} envie(s) surmontée(s).`;
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = x;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      toast('📋 Résumé copié dans le presse-papiers !');
+    } catch (e) { toast(x); }
+  },
+  reset() {
+    modal('<h2>Tout effacer ?</h2><p>Compagnon, XP et pièces seront supprimés de cet appareil.</p><button class="r f" data-a="reset2">Oui, effacer</button><button class="s f" style="margin-top:8px" data-a="close">Annuler</button>');
+  },
+  reset2() {
+    try { localStorage.removeItem(K); } catch (e) {}
+    S = null;
+    close();
+  }
+};
+
+function chkModal() {
+  modal(`<h2>Bilan du soir & Thérapie Aubin 🌙</h2><label>Mon humeur aujourd’hui</label><div style="display:flex;gap:8px;justify-content:center">${[1, 2, 3, 4, 5].map(i => `<button class="chip ${i == 3 ? 'on' : ''}" data-a="md" data-v="${i}">${['😞', '😕', '😐', '🙂', '😄'][i - 1]}</button>`).join('')}</div><label>Un mot sur ma journée (Aubin te répondra dans Parler IA)</label><input id="nt" placeholder="Une victoire, une difficulté, une fierté…"><button class="f w" style="margin-top:14px" data-a="chkok">Valider mon bilan (+50 XP)</button><button class="s f" style="margin-top:8px" data-a="close">Plus tard</button>`);
+}
+
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-a]');
+  if (a && A[a.dataset.a]) A[a.dataset.a](a.dataset.v, a);
 });
-document.addEventListener('change',e=>{
-  if(e.target.classList.contains('sx'))$('#wr').style.display=[...document.querySelectorAll('.sx')].some(c=>c.checked)?'block':'none';
+document.addEventListener('change', e => {
+  if (e.target.classList.contains('sx')) {
+    $('#wr').style.display = [...document.querySelectorAll('.sx')].some(c => c.checked) ? 'block' : 'none';
+  }
 });
-if(S){
-  S.habits=S.habits||[];S.notes=S.notes||[];S.lvl=S.lvl||'doux';
-  const s=stat(),g=Math.floor(s.days/7);
-  if(g>(S.lastSh||0)){S.shield=Math.min(2,S.shield+g-(S.lastSh||0));S.lastSh=g;save()}
+
+if (S) {
+  S.habits = S.habits || [];
+  S.notes = S.notes || [];
+  S.lvl = S.lvl || 'doux';
+  S.gagesDone = S.gagesDone || 0;
+  const s = stat(), g = Math.floor(s.days / 7);
+  if (g > (S.lastSh || 0)) {
+    S.shield = Math.min(2, S.shield + g - (S.lastSh || 0));
+    S.lastSh = g;
+    save();
+  }
 }
 render();
 </script>
